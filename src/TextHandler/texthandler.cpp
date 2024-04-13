@@ -18,8 +18,10 @@ void TextHandler::welcome_text(bool &pending_save)
     << left << setw(max_dim) << "3."
     << right << setw(max_dim) << "Edit passwords" << endl
     << left << setw(max_dim) << "4."
+    << right << setw(max_dim) << "Delete passwords" << endl
+    << left << setw(max_dim) << "5."
     << right << setw(max_dim) << "Save locally" << save_warning << endl
-    << left << setw(max_dim) << "5." 
+    << left << setw(max_dim) << "6." 
     << right << setw(max_dim) << "Exit" << endl << endl << setfill(' ');
 
 }
@@ -37,10 +39,10 @@ void TextHandler::print_message(int id)
         cout << this->file_not_found_text << endl;
         break;
     case 3:
-        cout << this->add_psw_text_1 << endl;
+        cout << this->insert_service_text << endl;
         break;
     case 4:
-        cout << this->add_psw_text_2 << endl;
+        cout << this->insert_password_text << endl;
         break;
     default:
         break;

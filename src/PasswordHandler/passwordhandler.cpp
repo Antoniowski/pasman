@@ -128,6 +128,11 @@ void PasswordHandler::add_new_password(std::string service_name, std::string pas
 
 void PasswordHandler::save_locally(std::string path)
 {
+    /**
+     * This fuction is used to save all the changes made on the password array in the computer memory.
+     * Doing so everytime the program is open all the passwords that are saved locally can be retrieved.
+    */
+
     std::fstream myFile;
     myFile.open(path, std::ios::out);
 
@@ -149,4 +154,63 @@ void PasswordHandler::save_locally(std::string path)
     }
 
     myFile.close();
+}
+
+void PasswordHandler::delete_password(std::string service_to_delete)
+{
+    /**
+     * Function that is used to delete a password from the passwords vector.
+     * Remember to save the changes to apply the operation.
+    */
+   
+    for(std::vector<password_row>::iterator i = this->passwords.begin(); i != this->passwords.end(); ++i)
+    {
+        if(std::get<0>(*i) == service_to_delete)
+        {
+            this->passwords.erase(i);
+            std:: cout << "Password deleted." << std::endl;
+            return;
+        }
+    };
+}
+
+
+void PasswordHandler::edit_password(std::string service_to_delete, std::string edit_time)
+{
+    /**
+     * Function that is used to edit a password from the passwords vector.
+     * Remember to save the changes to apply the operation.
+    */
+
+    for(std::vector<password_row>::iterator i = this->passwords.begin(); i != this->passwords.end(); ++i)
+    {
+        if(std::get<0>(*i) == service_to_delete)
+        {
+            bool pass_is_correct = false;
+            while(!pass_is_correct)
+            {
+                std::string new_password{};
+                std::string new_password_copy{}
+                ;
+                std::cout << "Enter the new password for " << std::get<0>(*i) << std::endl;
+                std::cin >> new_password;
+                std::cout << "Enter the new password again." << std::endl;
+                std::cin >> new_password_copy;
+
+                if(new_password != new_password_copy)
+                {
+                    std::cout << "Passwords doen't match. Try again." << std::endl;
+                    new_password = "";
+                    new_password_copy = "";
+                    continue;
+                }
+
+                pass_is_correct = true;
+                std::get<1>(*i) = new_password;
+                std::get<2>(*i) = edit_time;
+                std:: cout << "Password changed." << std::endl;
+                return;
+            }
+        }
+    };
 }

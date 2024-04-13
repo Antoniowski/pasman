@@ -35,7 +35,7 @@ public:
     void add_new_password(password_row);
     void add_new_password(std::string, std::string);
     void delete_password(std::string);
-    void edit_password(std::string);
+    void edit_password(std::string, std::string);
     void save_locally(std::string);
 };
 
