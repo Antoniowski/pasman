@@ -80,9 +80,15 @@ void init_procedure(TextHandler& th)
     }
 }
 
-void auth_procedure()
+bool auth_procedure(TextHandler& th)
 {
-
+    string inserted_pass{};
+    th.print_message(message_id::INSERT_PASSWORD_MESSAGE);
+    cin >> inserted_pass;
+    if(inserted_pass == pass)
+        return true;
+    
+    return false;
 }
 
 
