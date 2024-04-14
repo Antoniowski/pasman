@@ -70,19 +70,26 @@ void delete_procedure(TextHandler& th, PasswordHandler& ph, bool& save_status){
 }
 
 
+struct status
+{
+    bool pending_save = false;
+    bool exit = false;
+    bool init = false;
+    bool first_run = false;
+};
+
 int main()
 {
     system("clear");
     TextHandler txt_handler = TextHandler();
     PasswordHandler pass_handler = PasswordHandler(resource_path+"pass.txt");
     string scelta{};
-    bool pending_save = false;
-    bool exit = false;
+    status status;
    
-    while (exit == false)
+    while (status.exit == false)
     {
-        txt_handler.selection_menu(pending_save);
-        cout << "Insert a value to select what to do.\n";
+        txt_handler.selection_menu(status.pending_save);
+        cout << "Insert a value to select what to do." << endl;
         cin >> scelta;
 
         if(!is_number(scelta))
@@ -99,22 +106,20 @@ int main()
             pass_handler.show_passwords();
             break;
         case 2:
-        {
-            add_procedure(txt_handler, pass_handler, pending_save);
+            add_procedure(txt_handler, pass_handler, status.pending_save);
             break;           
-        }
         case 3:
-            edit_procedure(txt_handler, pass_handler, pending_save);
+            edit_procedure(txt_handler, pass_handler, status.pending_save);
             break;
         case 4:
-            delete_procedure(txt_handler, pass_handler, pending_save);
+            delete_procedure(txt_handler, pass_handler, status.pending_save);
             break;
         case 5:
             pass_handler.save_locally(resource_path+"pass.txt");
-            pending_save = false;
+            status.pending_save = false;
             break;
         case 6:
-            exit = true;
+            status.exit = true;
             break;
         default:
             break;
