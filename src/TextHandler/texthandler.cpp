@@ -9,7 +9,7 @@ void TextHandler::selection_menu(bool &pending_save)
     if(pending_save)
         save_warning = "(!)";
     size_t max_dim = 25;
-    cout << left << setw(max_dim) << "Welcome to your Password Manager" << endl
+    cout 
     << left << setw(max_dim) << "What do you need?" << endl << endl << setfill('.')
     << left << setw(max_dim) << "1." 
     << right << setw(max_dim) << "Show passwords" << endl
@@ -31,6 +31,20 @@ void TextHandler::print_message(int id)
     switch (id)
     {
     case 0:
+        cout << R"(
+      ___         ___           ___           ___           ___           ___     
+     /\  \       /\  \         /\__\         /\  \         /\  \         /\  \    
+    /::\  \     /::\  \       /:/ _/_       |::\  \       /::\  \        \:\  \   
+   /:/\:\__\   /:/\:\  \     /:/ /\  \      |:|:\  \     /:/\:\  \        \:\  \  
+  /:/ /:/  /  /:/ /::\  \   /:/ /::\  \   __|:|\:\  \   /:/ /::\  \   _____\:\  \ 
+ /:/_/:/  /  /:/_/:/\:\__\ /:/_/:/\:\__\ /::::|_\:\__\ /:/_/:/\:\__\ /::::::::\__\
+ \:\/:/  /   \:\/:/  \/__/ \:\/:/ /:/  / \:\~~\  \/__/ \:\/:/  \/__/ \:\~~\~~\/__/
+  \::/__/     \::/__/       \::/ /:/  /   \:\  \        \::/__/       \:\  \      
+   \:\  \      \:\  \        \/_/:/  /     \:\  \        \:\  \        \:\  \     
+    \:\__\      \:\__\         /:/  /       \:\__\        \:\__\        \:\__\    
+     \/__/       \/__/         \/__/         \/__/         \/__/         \/__/                       
+    )" << endl 
+       << left << setw(25) << "Welcome to your password Manager, user" << endl;
         break;
     case 1:
         cout << this->insert_error_text << endl;

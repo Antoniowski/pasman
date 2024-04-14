@@ -1,40 +1,12 @@
 #include "./TextHandler/texthandler.h"
 #include "./PasswordHandler/passwordhandler.h"
+#include "./Utility/utility.h"
 #include <stdio.h>
 
 
 using namespace std;
 
 const string resource_path = "./resources/";
-
-bool is_number(const std::string& stringa)
-{
-    /**
-     * Check if a string is a number or not.
-     * 
-     * 
-     * Return: bool, result of the operation
-    */
-    std::string::const_iterator it = stringa.begin();
-    while(it != stringa.end() && std::isdigit(*it)) ++it;
-    return it == stringa.end() && !stringa.empty();
-}
-
-string get_today_date()
-{
-    /**
-     * 
-     * Returns a string of today date in the format DD/MM/YYYY.
-     * 
-     * Return: string, the string containing the date.
-     * 
-    */
-    time_t now = time(0);
-    tm* time_struct = localtime(&now);
-    string time_string ="" + to_string(time_struct->tm_mday) + "/" + to_string(1 + time_struct->tm_mon) +"/"+ to_string(1900 + time_struct->tm_year);
-    return time_string;
-
-}
 
 void add_procedure(TextHandler& th, PasswordHandler& ph, bool& save_status)
 {
@@ -61,12 +33,29 @@ void edit_procedure(TextHandler& th, PasswordHandler& ph, bool& save_status)
     save_status = true;
 }
 
-void delete_procedure(TextHandler& th, PasswordHandler& ph, bool& save_status){
+void delete_procedure(TextHandler& th, PasswordHandler& ph, bool& save_status)
+{
     string service_to_delete{};
     th.print_message(message_id::INSERT_SERVICE_MESSAGE);
     cin >> service_to_delete;
     ph.delete_password(service_to_delete);
     save_status = true;
+}
+
+void save_procedure(TextHandler& th, PasswordHandler& ph, bool& save_status)
+{
+    ph.save_locally(resource_path+"pass.txt");
+    save_status = false;
+}
+
+void init_procedure()
+{
+
+}
+
+void auth_procedure()
+{
+
 }
 
 
@@ -75,19 +64,32 @@ struct status
     bool pending_save = false;
     bool exit = false;
     bool init = false;
-    bool first_run = false;
+    bool first_run = true;
 };
 
 int main()
 {
-    system("clear");
     TextHandler txt_handler = TextHandler();
     PasswordHandler pass_handler = PasswordHandler(resource_path+"pass.txt");
     string scelta{};
     status status;
+
+    if(status.init == true)
+    {
+
+    }
+
+    system("clear");
+    txt_handler.print_message(message_id::WELCOME_MESSAGE);
    
     while (status.exit == false)
     {
+        if(!status.first_run)
+        {
+            system("clear");
+        }
+
+        status.first_run = false;
         txt_handler.selection_menu(status.pending_save);
         cout << "Insert a value to select what to do." << endl;
         cin >> scelta;
@@ -115,8 +117,7 @@ int main()
             delete_procedure(txt_handler, pass_handler, status.pending_save);
             break;
         case 5:
-            pass_handler.save_locally(resource_path+"pass.txt");
-            status.pending_save = false;
+            save_procedure(txt_handler, pass_handler, status.pending_save);
             break;
         case 6:
             status.exit = true;
