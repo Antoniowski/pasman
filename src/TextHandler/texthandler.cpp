@@ -3,7 +3,7 @@
 TextHandler::TextHandler(){};
 TextHandler::~TextHandler(){};
 
-void TextHandler::welcome_text(bool &pending_save)
+void TextHandler::selection_menu(bool &pending_save)
 {
     string save_warning = "";
     if(pending_save)

@@ -43,7 +43,7 @@ void add_procedure(TextHandler& th, PasswordHandler& ph, bool& save_status)
     th.print_message(message_id::INSERT_SERVICE_MESSAGE);
     cin >> value;
     get<0>(new_row) = value;
-    th.print_message(message_id::INSERET_PASSWORD_MESSAGE);
+    th.print_message(message_id::INSERT_PASSWORD_MESSAGE);
     cin >> value;
     get<1>(new_row) = value;
     get<2>(new_row) = get_today_date();
@@ -81,7 +81,7 @@ int main()
    
     while (exit == false)
     {
-        txt_handler.welcome_text(pending_save);
+        txt_handler.selection_menu(pending_save);
         cout << "Insert a value to select what to do.\n";
         cin >> scelta;
 

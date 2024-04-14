@@ -13,7 +13,7 @@ enum message_id: unsigned int
     INSERT_ERROR_MESSAGE = 1,
     FILE_NOT_FOUND_MESSAGE = 2,
     INSERT_SERVICE_MESSAGE = 3,
-    INSERET_PASSWORD_MESSAGE = 4
+    INSERT_PASSWORD_MESSAGE = 4
 };
 
 class TextHandler
@@ -30,7 +30,7 @@ public:
     TextHandler();
     ~TextHandler();
 
-    void welcome_text(bool&);
+    void selection_menu(bool&);
     void print_message(int);
 };
 
