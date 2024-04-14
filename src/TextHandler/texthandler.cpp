@@ -3,12 +3,17 @@
 TextHandler::TextHandler(){};
 TextHandler::~TextHandler(){};
 
-void TextHandler::selection_menu(bool &pending_save)
+void TextHandler::selection_menu(bool &pending_save, string username, bool first_run)
 {
     string save_warning = "";
+    size_t max_dim = 25;
+
     if(pending_save)
         save_warning = "(!)";
-    size_t max_dim = 25;
+        
+    if (first_run)
+        cout << left << setw(max_dim) << "Welcome to your password Manager, " << username <<  endl;
+
     cout 
     << left << setw(max_dim) << "What do you need?" << endl << endl << setfill('.')
     << left << setw(max_dim) << "1." 
@@ -26,11 +31,11 @@ void TextHandler::selection_menu(bool &pending_save)
 
 }
 
-void TextHandler::print_message(int id)
+void TextHandler::print_message(message_id id)
 {
     switch (id)
     {
-    case 0:
+    case WELCOME_MESSAGE:
         cout << R"(
       ___         ___           ___           ___           ___           ___     
      /\  \       /\  \         /\__\         /\  \         /\  \         /\  \    
@@ -43,21 +48,37 @@ void TextHandler::print_message(int id)
    \:\  \      \:\  \        \/_/:/  /     \:\  \        \:\  \        \:\  \     
     \:\__\      \:\__\         /:/  /       \:\__\        \:\__\        \:\__\    
      \/__/       \/__/         \/__/         \/__/         \/__/         \/__/                       
-    )" << endl 
-       << left << setw(25) << "Welcome to your password Manager, user" << endl;
+    )" << endl;
         break;
-    case 1:
+    case INSERT_ERROR_MESSAGE:
         cout << this->insert_error_text << endl;
         break;
-    case 2:
+    case FILE_NOT_FOUND_MESSAGE:
         cout << this->file_not_found_text << endl;
         break;
-    case 3:
+    case INSERT_SERVICE_MESSAGE:
         cout << this->insert_service_text << endl;
         break;
-    case 4:
+    case INSERT_PASSWORD_MESSAGE:
         cout << this->insert_password_text << endl;
         break;
+    case INIT_01:
+        cout << this->init_text_01 << endl;
+        break;
+    case INIT_02:
+        cout << this->init_text_02;
+        break;
+    case INIT_03:
+        cout << this->init_text_03;
+        break;
+    case INIT_04:
+        cout << this->init_text_04;
+        break;
+    case INIT_05:
+        cout << this->init_text_05 << endl;
+        break;
+    case PASSWORD_MISMATCH:
+        cout << this->password_mismatch_text << endl;
     default:
         break;
     }
