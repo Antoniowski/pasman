@@ -18,10 +18,13 @@ enum message_id: unsigned int
     INIT_02 = 6,
     INIT_03 = 7,
     INIT_04 = 8,
-    INIT_05 = 9,
+    INIT_06 = 9,
     PASSWORD_MISMATCH = 10,
     WRONG_PASSWORD_MESSAGE = 11,
     TOO_MANY_TRIES_MESSAGE = 12,
+    INIT_05 = 13,
+    NOT_A_NUMBER_MESSAGE = 14,
+    KEY = 15,
 };
 
 class TextHandler
@@ -35,10 +38,13 @@ private:
     const string init_text_02 = "Insert your username: ";
     const string init_text_03 = "Insert the password for authentication: ";
     const string init_text_04 = "Confirm the password: ";
-    const string init_text_05 = "Configuration completed. Welcome, ";
+    const string init_text_05 = "Insert a number. It will be used as encryption key (DON'T LOSE IT): ";
+    const string init_text_06 = "Configuration completed. Welcome, ";
     const string password_mismatch_text = "Passwords doesn't match. Try again.";
     const string wrong_password_text = "Wrong password. Try again";
     const string too_many_tries_text = "Too many tries. Abort loggin";
+    const string not_number_text = "Not a number. Retry";
+    const string key_text = "Key: ";
 
 
     

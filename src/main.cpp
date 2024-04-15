@@ -6,9 +6,19 @@
 
 using namespace std;
 
+
+struct status
+{
+    bool pending_save = false;
+    bool exit = false;
+    bool init = true;
+    bool first_run = true;
+};
+
 const string resource_path = "./resources/";
 string user{};
-string pass = "HALLO";
+string pass{};
+int key = 0;
 
 void add_procedure(TextHandler& th, PasswordHandler& ph, bool& save_status)
 {
@@ -56,6 +66,7 @@ void init_procedure(TextHandler& th)
     string username;
     string password;
     string password_cp;
+    string enc_key;
     while(!password_is_good)
     {
         th.print_message(message_id::INIT_01);
@@ -76,8 +87,30 @@ void init_procedure(TextHandler& th)
         }
         pass = password;
         password_is_good = true;
-        th.print_message(message_id::INIT_05);
+        bool good_key = false;
+        while(!good_key)
+        {
+            th.print_message(message_id::INIT_05);
+            cin >> enc_key;
+            if(!is_number(enc_key))
+            {
+                th.print_message(message_id::NOT_A_NUMBER_MESSAGE);
+                enc_key = "";
+                continue;
+            }
+
+            good_key = true;
+            key = stoi(enc_key);
+        }
+        th.print_message(message_id::INIT_06);
     }
+
+    fstream conf_file;
+    conf_file.open(resource_path+"config.txt", ios::out);
+    conf_file << simple_encryption("username="+username, key) << endl;
+    conf_file << simple_encryption("password="+password, key) << endl;
+    conf_file << simple_encryption("key="+enc_key, key) << endl;
+    conf_file.close();
 }
 
 bool auth_procedure(TextHandler& th)
@@ -93,6 +126,33 @@ bool auth_procedure(TextHandler& th)
 
 bool login_procedure(TextHandler& th)
 {
+    bool is_key_number = false;
+    string k;
+    while (!is_key_number)
+    {
+        th.print_message(message_id::KEY);
+        cin >> k;
+
+        if(!is_number(k))
+        {
+            th.print_message(message_id::NOT_A_NUMBER_MESSAGE);
+            continue;
+        }
+
+        is_key_number = true;
+        key = stoi(k);
+    }
+    
+    fstream my_conf;
+    my_conf.open(resource_path+"config.txt", ios::in);
+    my_conf >> user;
+    user = simple_decryption(user, key);
+    user = user.substr(user.find("=")+1, user.length()-1);
+    my_conf >> pass;
+    pass = simple_decryption(pass, key);
+    pass = pass.substr(pass.find("=")+1, pass.length()-1);
+    my_conf.close();
+
     int tries = 0;
     bool loggin_success = false;
     while(tries < 4 && loggin_success == false)
@@ -115,20 +175,14 @@ bool login_procedure(TextHandler& th)
     }
 }
 
-struct status
-{
-    bool pending_save = false;
-    bool exit = false;
-    bool init = false;
-    bool first_run = true;
-};
-
 int main()
 {
     TextHandler txt_handler = TextHandler();
     PasswordHandler pass_handler = PasswordHandler(resource_path+"pass.txt");
     string scelta{};
     status status;
+
+    status.init = !file_exists(resource_path+"config.txt");
 
     if(status.init == true)
     {

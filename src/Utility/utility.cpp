@@ -28,3 +28,33 @@ std::string get_today_date()
     return time_string;
 
 }
+
+std::string simple_encryption(std::string string_to_encrypt, int key)
+{
+    for(std::string::iterator iter = string_to_encrypt.begin(); iter != string_to_encrypt.end(); ++iter)
+    {
+        *iter += key;
+    }
+
+    return string_to_encrypt;
+}
+
+std::string simple_decryption(std::string string_to_decrypt, int key)
+{
+    for(std::string::iterator iter = string_to_decrypt.begin(); iter != string_to_decrypt.end(); ++iter)
+    {
+        *iter -= key;
+    }
+    return string_to_decrypt;
+}
+
+bool file_exists(const std::string& file_path)
+{
+    if (FILE *file = fopen(file_path.c_str(), "r")) {
+        fclose(file);
+        return true;
+    } 
+
+    return false;  
+
+}
