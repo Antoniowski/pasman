@@ -1,5 +1,8 @@
 #ifndef PASSWORD_HANDLER_H
 #define PASSWORD_HANDLER_H
+
+#include "../Utility/utility.h"
+
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -28,7 +31,7 @@ private:
     std::vector<password_row> passwords;
     
 public:
-    PasswordHandler(std::string);
+    PasswordHandler(std::string, int);
     ~PasswordHandler();
     void show_password(std::string);
     void show_passwords();
@@ -36,7 +39,7 @@ public:
     void add_new_password(std::string, std::string);
     void delete_password(std::string);
     void edit_password(std::string, std::string);
-    void save_locally(std::string);
+    void save_locally(std::string, int);
 };
 
 

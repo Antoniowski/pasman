@@ -56,7 +56,7 @@ void delete_procedure(TextHandler& th, PasswordHandler& ph, bool& save_status)
 
 void save_procedure(TextHandler& th, PasswordHandler& ph, bool& save_status)
 {
-    ph.save_locally(resource_path+"pass.txt");
+    ph.save_locally(resource_path+"pass.txt", key);
     save_status = false;
 }
 
@@ -124,7 +124,7 @@ bool auth_procedure(TextHandler& th)
     return false;
 }
 
-bool login_procedure(TextHandler& th)
+void login_procedure(TextHandler& th)
 {
     bool is_key_number = false;
     string k;
@@ -177,12 +177,11 @@ bool login_procedure(TextHandler& th)
 
 int main()
 {
-    TextHandler txt_handler = TextHandler();
-    PasswordHandler pass_handler = PasswordHandler(resource_path+"pass.txt");
-    string scelta{};
-    status status;
 
+
+    status status;
     status.init = !file_exists(resource_path+"config.txt");
+    TextHandler txt_handler = TextHandler();
 
     if(status.init == true)
     {
@@ -193,6 +192,8 @@ int main()
         login_procedure(txt_handler);
     }
     
+    string scelta{};
+    PasswordHandler pass_handler = PasswordHandler(resource_path+"pass.txt", key);
     /*
         System specific:
             "clear" - linux, unix

@@ -1,6 +1,6 @@
 #include "passwordhandler.h"
 
-PasswordHandler::PasswordHandler(std::string path)
+PasswordHandler::PasswordHandler(std::string path, int key)
 {
     this->local_file_path = path;
 
@@ -22,17 +22,20 @@ PasswordHandler::PasswordHandler(std::string path)
     unsigned int index = 0;
     while(pass_wordfile >> single_row)
     {
-        if(single_row == "---"){
+        std::string decrypted_row = simple_decryption(single_row, key);
+        if(decrypted_row == "---"){
             password_row row;
             row = std::make_tuple(single_pass_element.at(0), single_pass_element.at(1), single_pass_element.at(2));
             this->passwords.push_back(row);
             single_pass_element.clear();
             single_row.clear();
+            decrypted_row.clear();
             index++;
             continue;
         }
-        single_pass_element.push_back(single_row);
+        single_pass_element.push_back(decrypted_row);
         single_row.clear();
+        decrypted_row.clear();
     }
 
     pass_wordfile.close();
@@ -126,7 +129,7 @@ void PasswordHandler::add_new_password(std::string service_name, std::string pas
    this->passwords.push_back(new_pass);
 };
 
-void PasswordHandler::save_locally(std::string path)
+void PasswordHandler::save_locally(std::string path, int key)
 {
     /**
      * This fuction is used to save all the changes made on the password array in the computer memory.
@@ -147,10 +150,10 @@ void PasswordHandler::save_locally(std::string path)
 
     for(password_row rows: this->passwords)
     {
-        myFile << std::get<0>(rows) << std::endl;
-        myFile << std::get<1>(rows) << std::endl;
-        myFile << std::get<2>(rows) << std::endl;
-        myFile << "---" << std::endl;
+        myFile << simple_encryption(std::get<0>(rows), key) << std::endl;
+        myFile << simple_encryption(std::get<1>(rows), key) << std::endl;
+        myFile << simple_encryption(std::get<2>(rows), key) << std::endl;
+        myFile << simple_encryption("---", key) << std::endl;
     }
 
     myFile.close();
