@@ -82,7 +82,7 @@ void PasswordHandler::show_passwords()
 
     size_t max_cell_size = 32;
 
-    std::cout << std::setw(max_cell_size) << std::left << "SERVICE"
+    std::cout << std::setw(max_cell_size) << std::setfill(' ') << std::left << "SERVICE" 
               << std::setw(max_cell_size) << std::left << "PASSWORD"
               << std::setw(max_cell_size) << std::left << "CREATION DATE" << std::endl;
     for(auto pass_row: this->passwords)
@@ -93,10 +93,24 @@ void PasswordHandler::show_passwords()
     }
 
     //PAUSE
+    std::cout << std::endl << "Press Enter to continue... " << std::setfill('\0');
     std::cin.ignore();
     std::cin.get();
 
 };
+
+void PasswordHandler::show_services()
+{
+    size_t max_cell_size = 32;
+
+    std::cout << std::setw(max_cell_size) << std::left << "SERVICES: " << std::endl;
+    
+    for(password_row pass_row: this->passwords)
+    {
+        std::cout << std::setw(max_cell_size) << std::left  << "- " << std::get<0>(pass_row) << std::endl;
+    }
+
+}
 
 void PasswordHandler::add_new_password(password_row new_password_row)
 {
@@ -159,7 +173,7 @@ void PasswordHandler::save_locally(std::string path, int key)
     myFile.close();
 }
 
-void PasswordHandler::delete_password(std::string service_to_delete)
+bool PasswordHandler::delete_password(std::string service_to_delete)
 {
     /**
      * Function that is used to delete a password from the passwords vector.
@@ -172,19 +186,22 @@ void PasswordHandler::delete_password(std::string service_to_delete)
         {
             this->passwords.erase(i);
             std:: cout << "Password deleted." << std::endl;
-            return;
+            return true;
         }
+
     };
+    
+    std::cout << "No service with such name" << std::endl;
+    return false;
 }
 
 
-void PasswordHandler::edit_password(std::string service_to_delete, std::string edit_time)
+bool PasswordHandler::edit_password(std::string service_to_delete, std::string edit_time)
 {
     /**
      * Function that is used to edit a password from the passwords vector.
      * Remember to save the changes to apply the operation.
     */
-
     for(std::vector<password_row>::iterator i = this->passwords.begin(); i != this->passwords.end(); ++i)
     {
         if(std::get<0>(*i) == service_to_delete)
@@ -212,8 +229,10 @@ void PasswordHandler::edit_password(std::string service_to_delete, std::string e
                 std::get<1>(*i) = new_password;
                 std::get<2>(*i) = edit_time;
                 std:: cout << "Password changed." << std::endl;
-                return;
+                return true;
             }
         }
     };
+    std::cout << "No service with such name" << std::endl;
+    return false;
 }

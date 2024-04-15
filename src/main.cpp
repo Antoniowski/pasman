@@ -41,8 +41,12 @@ void edit_procedure(TextHandler& th, PasswordHandler& ph, bool& save_status)
     string service_to_edit{};
     th.print_message(message_id::INSERT_SERVICE_MESSAGE);
     cin >> service_to_edit;
-    ph.edit_password(service_to_edit, get_today_date());
-    save_status = true;
+    save_status = ph.edit_password(service_to_edit, get_today_date());
+
+    th.print_message(message_id::CONTINUE_MESSAGE);
+    cin.ignore();
+    cin.get();
+
 }
 
 void delete_procedure(TextHandler& th, PasswordHandler& ph, bool& save_status)
@@ -50,8 +54,12 @@ void delete_procedure(TextHandler& th, PasswordHandler& ph, bool& save_status)
     string service_to_delete{};
     th.print_message(message_id::INSERT_SERVICE_MESSAGE);
     cin >> service_to_delete;
-    ph.delete_password(service_to_delete);
-    save_status = true;
+    save_status = ph.delete_password(service_to_delete);
+
+    th.print_message(message_id::CONTINUE_MESSAGE);
+    cin.ignore();
+    cin.get();
+
 }
 
 void save_procedure(TextHandler& th, PasswordHandler& ph, bool& save_status)
@@ -231,9 +239,11 @@ int main()
             add_procedure(txt_handler, pass_handler, status.pending_save);
             break;           
         case 3:
+            pass_handler.show_services();
             edit_procedure(txt_handler, pass_handler, status.pending_save);
             break;
         case 4:
+            pass_handler.show_services();
             delete_procedure(txt_handler, pass_handler, status.pending_save);
             break;
         case 5:
@@ -246,8 +256,8 @@ int main()
             break;
         }
     }
-
     
-    
+    system("clear");
+    txt_handler.print_message(message_id::EXIT_MESSAGE);
     return 0;
 }

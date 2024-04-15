@@ -11,9 +11,9 @@ void TextHandler::selection_menu(bool &pending_save, string username, bool first
     if(pending_save)
         save_warning = "(!)";
         
-    if (first_run)
-        cout << left << setw(max_dim) << "Welcome to your password Manager, " << username <<  endl;
-
+    //if (first_run)
+    cout << left << setw(max_dim) << "Welcome to your password manager, " << username << "!" <<  endl;
+    
     cout 
     << left << setw(max_dim) << "What do you need?" << endl << endl << setfill('.')
     << left << setw(max_dim) << "1." 
@@ -27,7 +27,7 @@ void TextHandler::selection_menu(bool &pending_save, string username, bool first
     << left << setw(max_dim) << "5."
     << right << setw(max_dim) << "Save locally" << save_warning << endl
     << left << setw(max_dim) << "6." 
-    << right << setw(max_dim) << "Exit" << endl << endl << setfill(' ');
+    << right << setw(max_dim) << "Exit" << endl << endl << setfill('\0');
 
 }
 
@@ -94,6 +94,12 @@ void TextHandler::print_message(message_id id)
         break;
     case KEY:
         cout << this->key_text;
+        break;
+    case EXIT_MESSAGE:
+        cout << this->exit_text << endl;
+        break;
+    case CONTINUE_MESSAGE:
+        cout << this->continue_text;
         break;
     default:
         break;

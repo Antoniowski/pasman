@@ -25,6 +25,8 @@ enum message_id: unsigned int
     INIT_05 = 13,
     NOT_A_NUMBER_MESSAGE = 14,
     KEY = 15,
+    EXIT_MESSAGE = 16,
+    CONTINUE_MESSAGE = 17,
 };
 
 class TextHandler
@@ -45,7 +47,8 @@ private:
     const string too_many_tries_text = "Too many tries. Abort loggin";
     const string not_number_text = "Not a number. Retry";
     const string key_text = "Key: ";
-
+    const string exit_text = "Goodbye!";
+    const string continue_text = "Press Enter to continue... ";
 
     
 public:
