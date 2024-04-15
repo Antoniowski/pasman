@@ -8,7 +8,7 @@ using namespace std;
 
 const string resource_path = "./resources/";
 string user{};
-string pass{};
+string pass = "HALLO";
 
 void add_procedure(TextHandler& th, PasswordHandler& ph, bool& save_status)
 {
@@ -91,12 +91,35 @@ bool auth_procedure(TextHandler& th)
     return false;
 }
 
+bool login_procedure(TextHandler& th)
+{
+    int tries = 0;
+    bool loggin_success = false;
+    while(tries < 4 && loggin_success == false)
+    {
+        if(auth_procedure(th))
+        {
+            loggin_success = true;
+            continue;
+        }
+        tries++;
+        
+        if(tries < 4)
+            th.print_message(message_id::WRONG_PASSWORD_MESSAGE);
+    }
+
+    if(!loggin_success)
+    {
+        th.print_message(message_id::TOO_MANY_TRIES_MESSAGE);
+        exit(0);
+    }
+}
 
 struct status
 {
     bool pending_save = false;
     bool exit = false;
-    bool init = true;
+    bool init = false;
     bool first_run = true;
 };
 
@@ -111,20 +134,28 @@ int main()
     {
         init_procedure(txt_handler);
         status.init = false;
+    }else
+    {
+        login_procedure(txt_handler);
     }
-
+    
+    /*
+        System specific:
+            "clear" - linux, unix
+            "cls" - windows
+    */
     system("clear");
-    txt_handler.print_message(message_id::WELCOME_MESSAGE);
    
     while (status.exit == false)
     {
-        if(!status.first_run)
-        {
-            system("clear");
-        }
+        system("clear");
 
+        txt_handler.print_message(message_id::WELCOME_MESSAGE);
         txt_handler.selection_menu(status.pending_save, user, status.first_run);
-        status.first_run = false;
+        
+        if(status.first_run)
+            status.first_run = false;
+        
         cout << "Insert a value to select what to do." << endl;
         cin >> scelta;
 

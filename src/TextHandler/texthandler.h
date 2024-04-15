@@ -19,7 +19,9 @@ enum message_id: unsigned int
     INIT_03 = 7,
     INIT_04 = 8,
     INIT_05 = 9,
-    PASSWORD_MISMATCH = 10
+    PASSWORD_MISMATCH = 10,
+    WRONG_PASSWORD_MESSAGE = 11,
+    TOO_MANY_TRIES_MESSAGE = 12,
 };
 
 class TextHandler
@@ -35,6 +37,8 @@ private:
     const string init_text_04 = "Confirm the password: ";
     const string init_text_05 = "Configuration completed. Welcome, ";
     const string password_mismatch_text = "Passwords doesn't match. Try again.";
+    const string wrong_password_text = "Wrong password. Try again";
+    const string too_many_tries_text = "Too many tries. Abort loggin";
 
 
     

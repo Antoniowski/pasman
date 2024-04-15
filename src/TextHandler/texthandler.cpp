@@ -79,6 +79,12 @@ void TextHandler::print_message(message_id id)
         break;
     case PASSWORD_MISMATCH:
         cout << this->password_mismatch_text << endl;
+    case WRONG_PASSWORD_MESSAGE:
+        cout << this->wrong_password_text << endl;
+        break;
+    case TOO_MANY_TRIES_MESSAGE:
+        cout << this->too_many_tries_text << endl;
+        break;
     default:
         break;
     }
