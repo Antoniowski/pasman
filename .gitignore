@@ -34,7 +34,8 @@
 # Ide
 .vscode
 
+# Folders
+resources/
+
 # Files
-config.txt
-pass.txt
 test
