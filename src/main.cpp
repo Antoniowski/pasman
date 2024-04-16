@@ -20,6 +20,46 @@ string user{};
 string pass{};
 int key = 0;
 
+void show_procedure(TextHandler& th, PasswordHandler& ph)
+{
+    th.print_message(message_id::CHOOSE_MESSAGE);
+    th.show_selection_menu();
+    
+    bool good_choice = false;
+    string choice{};
+    while (!good_choice)
+    {
+        
+        cin >> choice;
+        if(!is_number(choice))
+        {
+            th.print_message(message_id::NOT_A_NUMBER_MESSAGE);
+            choice = "";
+            continue;
+        }
+        switch (stoi(choice))
+        {
+            case 1:
+                ph.show_passwords();
+                good_choice = true;
+                break;
+            case 2:
+            {
+                string c{};
+                ph.show_services();
+                th.print_message(message_id::INSERT_SERVICE_MESSAGE);
+                cin >> c;
+                ph.show_password(c);
+                good_choice = true;
+                break;
+            }
+            default:
+                th.print_message(message_id::INSERT_ERROR_MESSAGE);
+                break;
+        }
+    }
+}
+
 void add_procedure(TextHandler& th, PasswordHandler& ph, bool& save_status)
 {
     password_row new_row = make_tuple("", "", "");
@@ -235,7 +275,7 @@ int main()
         switch (scelta_num)
         {
         case 1:
-            pass_handler.show_passwords();
+            show_procedure(txt_handler, pass_handler);
             break;
         case 2:
             add_procedure(txt_handler, pass_handler, status.pending_save);

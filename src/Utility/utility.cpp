@@ -58,3 +58,9 @@ bool file_exists(const std::string& file_path)
     return false;  
 
 }
+
+void pause()
+{
+    std::cin.ignore();
+    std::cin.get();
+}

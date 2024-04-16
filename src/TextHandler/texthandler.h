@@ -27,6 +27,7 @@ enum message_id: unsigned int
     KEY = 15,
     EXIT_MESSAGE = 16,
     CONTINUE_MESSAGE = 17,
+    CHOOSE_MESSAGE = 18,
 };
 
 class TextHandler
@@ -49,13 +50,14 @@ private:
     const string key_text = "Key: ";
     const string exit_text = "Goodbye!";
     const string continue_text = "Press Enter to continue... ";
-
+    const string choose_option_text = "Please choose an option: ";
     
 public:
     TextHandler();
     ~TextHandler();
 
     void selection_menu(bool&, string, bool);
+    void show_selection_menu();
     void print_message(message_id);
 };
 

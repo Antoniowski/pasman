@@ -55,22 +55,27 @@ void PasswordHandler::show_password(std::string service_name)
      *   Params:
      *      service_name: string = string containing the service name of the serached password.
     */
+    size_t max_cell_size = 32;
+
+    std::cout << std::setw(max_cell_size) << std::setfill(' ') << std::left << "SERVICE"
+                << std::setw(max_cell_size) << std::left << "PASSWORD"
+                << std::setw(max_cell_size) << std::left << "LAST UPDATE" << std::endl;
     for(auto pass_row: this->passwords)
     {
-        size_t max_cell_size = 32;
-
-        std::cout << std::setw(max_cell_size) << std::left << "SERVICE"
-                  << std::setw(max_cell_size) << std::left << "PASSWORD"
-                  << std::setw(max_cell_size) << std::left << "CREATION DATE" << std::endl;
 
         if(std::get<0>(pass_row) == service_name)
         {
             std::cout << std::setw(max_cell_size) << std::left << std::get<0>(pass_row)
                       << std::setw(max_cell_size) << std::left << std::get<1>(pass_row)
-                      << std::setw(max_cell_size) << std::left << std::get<2>(pass_row) << std::endl;
+                      << std::setw(max_cell_size) << std::left << std::get<2>(pass_row) << std::endl << std::setfill('\0');
             break;
         }
     }
+
+        //PAUSE
+    std::cout << std::endl << "Press Enter to continue... " << std::setfill('\0');
+    std::cin.ignore();
+    std::cin.get();
 };
 
 
@@ -84,7 +89,7 @@ void PasswordHandler::show_passwords()
 
     std::cout << std::setw(max_cell_size) << std::setfill(' ') << std::left << "SERVICE" 
               << std::setw(max_cell_size) << std::left << "PASSWORD"
-              << std::setw(max_cell_size) << std::left << "CREATION DATE" << std::endl;
+              << std::setw(max_cell_size) << std::left << "LAST UPDATE" << std::endl;
     for(auto pass_row: this->passwords)
     {
         std::cout << std::setw(max_cell_size) << std::left << std::get<0>(pass_row)

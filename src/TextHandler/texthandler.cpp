@@ -31,6 +31,17 @@ void TextHandler::selection_menu(bool &pending_save, string username, bool first
 
 }
 
+void TextHandler::show_selection_menu()
+{
+    size_t max_dim = 25;
+
+    cout << left << setw(max_dim) << "What do you need?" << endl << endl << setfill('.')
+    << left << setw(max_dim) << "1." 
+    << right << setw(max_dim) << "All" << endl
+    << left << setw(max_dim) << "2."
+    << right << setw(max_dim) << "Select service" << endl << setfill('\0');
+}
+
 void TextHandler::print_message(message_id id)
 {
     switch (id)
@@ -100,6 +111,9 @@ void TextHandler::print_message(message_id id)
         break;
     case CONTINUE_MESSAGE:
         cout << this->continue_text;
+        break;
+    case CHOOSE_MESSAGE:
+        cout << this->choose_option_text << endl;
         break;
     default:
         break;
