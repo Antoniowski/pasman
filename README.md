@@ -23,5 +23,17 @@ And that's it, now you just need to use the following comand to start using pasm
 ./pasman
 ```
 
+## First Init
+
+When you open pasman for the first time, a short initialization will begin.
+During it you will be asked to choose an username, a password and a key. The key will be used to login (in combo with your password obviously) and, in particular, to encrypt both your info and your passwords.
+
+Another thing that will be asked is a path to a folder that will be used to create another one named pasman that will contain the encrypted files.
+
+## How to reset
+
+To reset the program and create a new profile you just need to delete the config.txt file that can found in the pasman/ folder at the path that has been specified during the init. 
+
+N.B. Deleting the config file and run the program again will automatically delete the pass.txt file where the passwords are saved.
 
 
