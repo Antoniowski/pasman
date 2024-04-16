@@ -31,8 +31,21 @@ std::string get_today_date()
 
 std::string simple_encryption(std::string string_to_encrypt, int key)
 {
+    /**
+     * Simple encryption function that uses a key to transform the string param into an ecnrypted
+     * string.
+     * 
+     * Params:
+     *  - string_to_encrypt (string): string that will be encrypted.
+     *  - key (int): integer used to change the ascii value.
+     * 
+     * Return:
+     *  string: the encrypted string
+    */
+
     for(std::string::iterator iter = string_to_encrypt.begin(); iter != string_to_encrypt.end(); ++iter)
     {
+
         *iter += key;
     }
 
@@ -41,6 +54,17 @@ std::string simple_encryption(std::string string_to_encrypt, int key)
 
 std::string simple_decryption(std::string string_to_decrypt, int key)
 {
+    /**
+     * Simple decryption function that uses a key to transform the encrypt string to its original form.
+     * 
+     * Params:
+     *  - string_to_decrypt (string): string that will be decrypted.
+     *  - key (int): integer used to change the ascii value.
+     * 
+     * Return:
+     *  string: the decrypted string
+    */
+
     for(std::string::iterator iter = string_to_decrypt.begin(); iter != string_to_decrypt.end(); ++iter)
     {
         *iter -= key;
@@ -50,6 +74,16 @@ std::string simple_decryption(std::string string_to_decrypt, int key)
 
 bool file_exists(const std::string& file_path)
 {
+    /**
+     * It checks the existence of the file specified by the inserted path.
+     * 
+     * Params:
+     *  - file_path(string): the path to the file that need to be checked/
+     * 
+     * Returns:
+     *  bool: result of the operation
+    */
+
     if (FILE *file = fopen(file_path.c_str(), "r")) {
         fclose(file);
         return true;
@@ -61,6 +95,11 @@ bool file_exists(const std::string& file_path)
 
 void pause()
 {
+    /**
+     * Simple altenativee fucntion to pause the program execustion without using
+     * the system() method.
+    */ 
+   
     std::cin.ignore();
     std::cin.get();
 }

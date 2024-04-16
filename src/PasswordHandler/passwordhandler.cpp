@@ -2,6 +2,16 @@
 
 PasswordHandler::PasswordHandler(std::string path, int key)
 {
+    /**
+     * Constructor of the PasswordHandler class
+     * 
+     * The cosntructor will initialize the class using the encrypted login info saved in
+     * the config file.
+     * If the file doesn't exist, it will be created.
+     * 
+     * 
+    */
+
     this->local_file_path = path;
 
     std::fstream pass_wordfile;
@@ -106,6 +116,12 @@ void PasswordHandler::show_passwords()
 
 void PasswordHandler::show_services()
 {
+
+    /**
+     * It shows just the name of all the services saved locally.
+     * 
+    */
+   
     size_t max_cell_size = 32;
 
     std::cout << std::setw(max_cell_size) << std::left << "SERVICES: " << std::endl;

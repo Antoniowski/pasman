@@ -1,4 +1,4 @@
-all: texthandler.o passwordhandler.o utility.o main.o test clean
+all: texthandler.o passwordhandler.o utility.o main.o pasman clean
 
 passwordhandler.o: ./src/PasswordHandler/passwordhandler.cpp ./src/PasswordHandler/passwordhandler.h
 	g++-11 -c ./src/PasswordHandler/passwordhandler.cpp
@@ -12,8 +12,8 @@ utility.o: ./src/Utility/utility.cpp ./src/Utility/utility.h
 main.o: ./src/main.cpp
 	g++-11 -c ./src/main.cpp
 
-test: texthandler.o passwordhandler.o utility.o main.o 
-	g++-11 texthandler.o passwordhandler.o utility.o main.o -o test
+pasman: texthandler.o passwordhandler.o utility.o main.o 
+	g++-11 texthandler.o passwordhandler.o utility.o main.o -o pasman
 
 clean:
 	rm -f *.o
