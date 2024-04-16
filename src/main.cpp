@@ -193,6 +193,8 @@ int main()
 
     if(status.init == true)
     {
+        if(file_exists(resource_path+"pass.txt"));
+            remove("./resources/pass.txt");
         init_procedure(txt_handler);
         status.init = false;
     }else
