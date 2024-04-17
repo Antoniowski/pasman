@@ -28,6 +28,7 @@ enum message_id: unsigned int
     EXIT_MESSAGE = 16,
     CONTINUE_MESSAGE = 17,
     CHOOSE_MESSAGE = 18,
+    INSERT_PATH_MESSAGE = 19,
 };
 
 class TextHandler
@@ -51,6 +52,7 @@ private:
     const string exit_text = "Goodbye!";
     const string continue_text = "Press Enter to continue... ";
     const string choose_option_text = "Please choose an option: ";
+    const string insert_path_text = "Please enter a local path where save your data: ";
     
 public:
     TextHandler();
@@ -58,6 +60,7 @@ public:
 
     void selection_menu(bool&, string, bool);
     void show_selection_menu();
+    void setting_selection_menu();
     void print_message(message_id);
 };
 

@@ -15,7 +15,10 @@ struct status
     bool first_run = true;
 };
 
-const string resource_path = "./resources/";
+const string PASS_FILE_NAME = "pass.txt";
+const string CONFIG_FILE_NAME = "config.txt";
+const string PATH_FILE_NAME = "path.txt";
+string resource_path = "./pasman/";
 string user{};
 string pass{};
 int key = 0;
@@ -104,7 +107,7 @@ void delete_procedure(TextHandler& th, PasswordHandler& ph, bool& save_status)
 
 void save_procedure(TextHandler& th, PasswordHandler& ph, bool& save_status)
 {
-    ph.save_locally(resource_path+"pass.txt", key);
+    ph.save_locally(resource_path + PASS_FILE_NAME, key);
     save_status = false;
 }
 
@@ -115,6 +118,7 @@ void init_procedure(TextHandler& th)
     string password;
     string password_cp;
     string enc_key;
+    string path = "";
     while(!password_is_good)
     {
         th.print_message(message_id::INIT_01);
@@ -150,15 +154,29 @@ void init_procedure(TextHandler& th)
             good_key = true;
             key = stoi(enc_key);
         }
+
+        th.print_message(message_id::INSERT_PATH_MESSAGE);
+        cin >> path;
+        
+        if(path != "")
+            resource_path = path;
+
+        if(!endsWith(resource_path, "/"))
+            resource_path += "/";
+        
         th.print_message(message_id::INIT_06);
     }
 
     fstream conf_file;
-    conf_file.open(resource_path+"config.txt", ios::out);
+    conf_file.open(resource_path + CONFIG_FILE_NAME, ios::out);
     conf_file << simple_encryption("username="+username, key) << endl;
     conf_file << simple_encryption("password="+password, key) << endl;
-    conf_file << simple_encryption("key="+enc_key, key) << endl;
+    fstream path_file;
+    path_file.open("./" + PATH_FILE_NAME, ios::out);
+    path_file << resource_path << endl;
+
     conf_file.close();
+    path_file.close();
 }
 
 bool auth_procedure(TextHandler& th)
@@ -192,7 +210,7 @@ void login_procedure(TextHandler& th)
     }
     
     fstream my_conf;
-    my_conf.open(resource_path+"config.txt", ios::in);
+    my_conf.open(resource_path + CONFIG_FILE_NAME, ios::in);
     my_conf >> user;
     user = simple_decryption(user, key);
     user = user.substr(user.find("=")+1, user.length()-1);
@@ -223,18 +241,27 @@ void login_procedure(TextHandler& th)
     }
 }
 
+//MAIN PROGRAM 
+
 int main()
 {
-
+    //Get resource path
+    fstream path_file;
+    path_file.open(PATH_FILE_NAME, ios::in);
+    path_file >> resource_path;
+    path_file.close();
 
     status status;
-    status.init = !file_exists(resource_path+"config.txt");
+    status.init = !file_exists(resource_path + CONFIG_FILE_NAME);
     TextHandler txt_handler = TextHandler();
 
     if(status.init == true)
     {
-        if(file_exists(resource_path+"pass.txt"));
-            remove("./resources/pass.txt");
+        if(file_exists(resource_path+PASS_FILE_NAME))
+        {
+            remove((resource_path+PASS_FILE_NAME).c_str());
+        }
+            
         init_procedure(txt_handler);
         status.init = false;
     }else
@@ -292,6 +319,9 @@ int main()
             save_procedure(txt_handler, pass_handler, status.pending_save);
             break;
         case 6:
+
+            break;
+        case 7:
             status.exit = true;
             break;
         default:

@@ -21,12 +21,14 @@ void TextHandler::selection_menu(bool &pending_save, string username, bool first
     << left << setw(max_dim) << "2."
     << right << setw(max_dim) << "Add password" << endl
     << left << setw(max_dim) << "3."
-    << right << setw(max_dim) << "Edit passwords" << endl
+    << right << setw(max_dim) << "Edit password" << endl
     << left << setw(max_dim) << "4."
-    << right << setw(max_dim) << "Delete passwords" << endl
+    << right << setw(max_dim) << "Delete password" << endl
     << left << setw(max_dim) << "5."
     << right << setw(max_dim) << "Save locally" << save_warning << endl
-    << left << setw(max_dim) << "6." 
+    << left << setw(max_dim) << "6."
+    << right << setw(max_dim) << "Settings" << endl
+    << left << setw(max_dim) << "7." 
     << right << setw(max_dim) << "Exit" << endl << endl << setfill('\0');
 
 }
@@ -42,6 +44,21 @@ void TextHandler::show_selection_menu()
     << right << setw(max_dim) << "Select service" << endl << setfill('\0');
 }
 
+void TextHandler::setting_selection_menu()
+{
+    size_t max_dim = 25;
+
+    cout << setfill('.')
+    << left << setw(max_dim) << "1." 
+    << right << setw(max_dim) << "Change username" << endl
+    << left << setw(max_dim) << "2." 
+    << right << setw(max_dim) << "Change login password" << endl
+    << left << setw(max_dim) << "3."
+    << right << setw(max_dim) << "Change save path" << endl 
+    << left << setw(max_dim) << "4."
+    << right << setw(max_dim) << "Go back" << endl << setfill('\0');
+    
+}
 void TextHandler::print_message(message_id id)
 {
     switch (id)
@@ -114,6 +131,9 @@ void TextHandler::print_message(message_id id)
         break;
     case CHOOSE_MESSAGE:
         cout << this->choose_option_text << endl;
+        break;
+    case INSERT_PATH_MESSAGE:
+        cout << this->insert_path_text;
         break;
     default:
         break;
