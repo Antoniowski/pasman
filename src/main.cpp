@@ -1,3 +1,6 @@
+//Written by Antonio "Antoniowski" Romano
+
+
 #include "./TextHandler/texthandler.h"
 #include "./PasswordHandler/passwordhandler.h"
 #include "./Utility/utility.h"
