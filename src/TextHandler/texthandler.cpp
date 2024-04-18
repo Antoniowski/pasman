@@ -135,6 +135,21 @@ void TextHandler::print_message(message_id id)
     case INSERT_PATH_MESSAGE:
         cout << this->insert_path_text;
         break;
+    case ERROR_VOID_MESSAGE:
+        cout << this->error_void_insert << endl;
+        break;
+    case WRONG_PASS_ABORT_MESSAGE:
+        cout << this->wrong_pass_abort_text << endl;
+        break;
+    case NEW_PATH_MESSAGE:
+        cout << this->new_path_text;
+        break;
+    case NEW_PASS_MESSAGE:
+        cout << this->new_pass_text;
+        break;
+    case OLD_PASS_MESSAGE:
+        cout << this->old_pass_text;
+        break;
     default:
         break;
     }

@@ -111,6 +111,110 @@ void save_procedure(TextHandler& th, PasswordHandler& ph, bool& save_status)
     save_status = false;
 }
 
+bool auth_procedure(TextHandler& th)
+{
+    string inserted_pass{};
+    th.print_message(message_id::INIT_03);
+    cin >> inserted_pass;
+    if(inserted_pass == pass)
+        return true;
+    
+    return false;
+}
+
+void setting_procedure(TextHandler& th, PasswordHandler& ph)
+{
+    fstream res_file;
+    res_file.open(resource_path + CONFIG_FILE_NAME, ios::in | ios::out);
+    fstream path_file;
+    path_file.open(PATH_FILE_NAME , ios::in | ios::out);
+    bool good_choose = false;
+    th.setting_selection_menu();
+    while (!good_choose)
+    {
+        th.print_message(message_id::CHOOSE_MESSAGE);
+        string choose{};
+        cin >> choose;
+
+        if(!is_number(choose))
+        {
+            th.print_message(message_id::NOT_A_NUMBER_MESSAGE);
+            continue;
+        }
+
+        switch (stoi(choose))
+        {
+        case 1:
+            {
+                string new_user = "";
+                th.print_message(message_id::INIT_02);
+                cin >> new_user;
+
+                if(new_user == "")
+                {
+                    th.print_message(message_id::ERROR_VOID_MESSAGE);
+                    break;
+                }
+                user = new_user;
+                res_file << simple_encryption("username=" + user, key);
+                res_file << simple_encryption("password=" + pass, key);
+                good_choose = true;
+            }
+            break;
+        case 2:
+            {
+                if(!auth_procedure(th))
+                {
+                    th.print_message(message_id::WRONG_PASS_ABORT_MESSAGE);
+                    break;
+                }
+
+                string new_pass{};
+                string new_pass_cp{};
+                th.print_message(message_id::NEW_PASS_MESSAGE);
+                cin >> new_pass;
+                th.print_message(message_id::INIT_04);
+                cin >> new_pass_cp;
+                if(new_pass != new_pass_cp)
+                {
+                    th.print_message(message_id::PASSWORD_MISMATCH);
+                    break;
+                }
+
+                pass = new_pass;
+                res_file << simple_encryption("username=" + user, key) << endl;
+                res_file << simple_encryption("password=" + pass, key) << endl;
+                good_choose = true;
+            }
+            break;
+        case 3:
+            {
+                string new_path{};
+                th.print_message(message_id::NEW_PATH_MESSAGE);
+                cin >> new_path;
+
+                if(new_path == "")
+                    new_path = "./resources/";
+
+                if(!endsWith(new_path, "/"))
+                    new_path += "/";
+
+                resource_path = new_path;
+                res_file << resource_path << endl;
+                good_choose = true;
+            }
+            break;
+        default:
+            th.print_message(message_id::INSERT_ERROR_MESSAGE);
+            good_choose = false;
+            break;
+        }
+    }
+    res_file.close();
+    path_file.close();
+    
+}
+
 void init_procedure(TextHandler& th)
 {
     bool password_is_good = false;
@@ -179,16 +283,7 @@ void init_procedure(TextHandler& th)
     path_file.close();
 }
 
-bool auth_procedure(TextHandler& th)
-{
-    string inserted_pass{};
-    th.print_message(message_id::INSERT_PASSWORD_MESSAGE);
-    cin >> inserted_pass;
-    if(inserted_pass == pass)
-        return true;
-    
-    return false;
-}
+
 
 void login_procedure(TextHandler& th)
 {
@@ -319,7 +414,7 @@ int main()
             save_procedure(txt_handler, pass_handler, status.pending_save);
             break;
         case 6:
-
+            setting_procedure(txt_handler, pass_handler);
             break;
         case 7:
             status.exit = true;

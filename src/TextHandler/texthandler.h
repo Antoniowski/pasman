@@ -29,6 +29,11 @@ enum message_id: unsigned int
     CONTINUE_MESSAGE = 17,
     CHOOSE_MESSAGE = 18,
     INSERT_PATH_MESSAGE = 19,
+    ERROR_VOID_MESSAGE = 20,
+    WRONG_PASS_ABORT_MESSAGE = 21,
+    NEW_PATH_MESSAGE = 22,
+    NEW_PASS_MESSAGE = 23,
+    OLD_PASS_MESSAGE = 24,
 };
 
 class TextHandler
@@ -53,6 +58,12 @@ private:
     const string continue_text = "Press Enter to continue... ";
     const string choose_option_text = "Please choose an option: ";
     const string insert_path_text = "Please enter a local path where save your data: ";
+    const string error_void_insert = "Invalid entry. It cannot be empty";
+    const string wrong_pass_abort_text = "Wrong password. Abort Operation";
+    const string new_path_text = "Insert new path: ";
+    const string new_pass_text = "Insert new password: ";
+    const string old_pass_text = "Insert old password: ";
+    
     
 public:
     TextHandler();
