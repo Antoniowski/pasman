@@ -37,18 +37,18 @@ void TextHandler::show_selection_menu()
 {
     size_t max_dim = 25;
 
-    cout << left << setw(max_dim) << "What do you need?" << endl << endl << setfill('.')
+    cout << left << endl << setfill('.')
     << left << setw(max_dim) << "1." 
     << right << setw(max_dim) << "All" << endl
     << left << setw(max_dim) << "2."
-    << right << setw(max_dim) << "Select service" << endl << setfill('\0');
+    << right << setw(max_dim) << "Select service" << endl << endl << setfill('\0');
 }
 
 void TextHandler::setting_selection_menu()
 {
     size_t max_dim = 25;
 
-    cout << setfill('.')
+    cout << left << endl << setfill('.')
     << left << setw(max_dim) << "1." 
     << right << setw(max_dim) << "Change username" << endl
     << left << setw(max_dim) << "2." 
@@ -56,7 +56,7 @@ void TextHandler::setting_selection_menu()
     << left << setw(max_dim) << "3."
     << right << setw(max_dim) << "Change save path" << endl 
     << left << setw(max_dim) << "4."
-    << right << setw(max_dim) << "Go back" << endl << setfill('\0');
+    << right << setw(max_dim) << "Go back" << endl << endl << setfill('\0');
     
 }
 void TextHandler::print_message(message_id id)
@@ -85,10 +85,10 @@ void TextHandler::print_message(message_id id)
         cout << this->file_not_found_text << endl;
         break;
     case INSERT_SERVICE_MESSAGE:
-        cout << this->insert_service_text << endl;
+        cout << this->insert_service_text;
         break;
     case INSERT_PASSWORD_MESSAGE:
-        cout << this->insert_password_text << endl;
+        cout << this->insert_password_text;
         break;
     case INIT_01:
         cout << this->init_text_01 << endl;
@@ -130,7 +130,7 @@ void TextHandler::print_message(message_id id)
         cout << this->continue_text;
         break;
     case CHOOSE_MESSAGE:
-        cout << this->choose_option_text << endl;
+        cout << endl << this->choose_option_text << endl;
         break;
     case INSERT_PATH_MESSAGE:
         cout << this->insert_path_text;
@@ -149,6 +149,9 @@ void TextHandler::print_message(message_id id)
         break;
     case OLD_PASS_MESSAGE:
         cout << this->old_pass_text;
+        break;
+    case INSERT_CHOICE_MESSAGE:
+        cout << this->insert_choice_text << endl;
         break;
     default:
         break;

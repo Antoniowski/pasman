@@ -34,6 +34,7 @@ enum message_id: unsigned int
     NEW_PATH_MESSAGE = 22,
     NEW_PASS_MESSAGE = 23,
     OLD_PASS_MESSAGE = 24,
+    INSERT_CHOICE_MESSAGE = 25,
 };
 
 class TextHandler
@@ -63,6 +64,7 @@ private:
     const string new_path_text = "Insert new path: ";
     const string new_pass_text = "Insert new password: ";
     const string old_pass_text = "Insert old password: ";
+    const string insert_choice_text = "Insert a value to select what to do.";
     
     
 public:

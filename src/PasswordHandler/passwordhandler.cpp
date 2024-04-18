@@ -67,20 +67,26 @@ void PasswordHandler::show_password(std::string service_name)
     */
     size_t max_cell_size = 32;
 
-    std::cout << std::setw(max_cell_size) << std::setfill(' ') << std::left << "SERVICE"
-                << std::setw(max_cell_size) << std::left << "PASSWORD"
-                << std::setw(max_cell_size) << std::left << "LAST UPDATE" << std::endl;
+    bool is_found = false;
+
     for(auto pass_row: this->passwords)
     {
 
         if(std::get<0>(pass_row) == service_name)
         {
+            std::cout << std::setw(max_cell_size) << std::setfill(' ') << std::left << "SERVICE"
+                      << std::setw(max_cell_size) << std::left << "PASSWORD"
+                      << std::setw(max_cell_size) << std::left << "LAST UPDATE" << std::endl << std::endl;
             std::cout << std::setw(max_cell_size) << std::left << std::get<0>(pass_row)
                       << std::setw(max_cell_size) << std::left << std::get<1>(pass_row)
                       << std::setw(max_cell_size) << std::left << std::get<2>(pass_row) << std::endl << std::setfill('\0');
+            is_found = true;
             break;
         }
     }
+
+    if(!is_found)
+        std::cout << std::endl << "No service with such name" << std::endl;
 
         //PAUSE
     std::cout << std::endl << "Press Enter to continue... " << std::setfill('\0');
@@ -99,7 +105,7 @@ void PasswordHandler::show_passwords()
 
     std::cout << std::setw(max_cell_size) << std::setfill(' ') << std::left << "SERVICE" 
               << std::setw(max_cell_size) << std::left << "PASSWORD"
-              << std::setw(max_cell_size) << std::left << "LAST UPDATE" << std::endl;
+              << std::setw(max_cell_size) << std::left << "LAST UPDATE" << std::endl << std::endl << std::setfill(' ');
     for(auto pass_row: this->passwords)
     {
         std::cout << std::setw(max_cell_size) << std::left << std::get<0>(pass_row)
@@ -124,13 +130,14 @@ void PasswordHandler::show_services()
    
     size_t max_cell_size = 32;
 
-    std::cout << std::setw(max_cell_size) << std::left << "SERVICES: " << std::endl;
+    std::cout << std::setw(max_cell_size) << std::left << "SERVICES: " << std::endl << std::endl;
     
     for(password_row pass_row: this->passwords)
     {
         std::cout << std::setw(max_cell_size) << std::left  << "- " << std::get<0>(pass_row) << std::endl;
     }
 
+    std::cout << std::endl;
 }
 
 void PasswordHandler::add_new_password(password_row new_password_row)
@@ -207,12 +214,20 @@ bool PasswordHandler::delete_password(std::string service_to_delete)
         {
             this->passwords.erase(i);
             std:: cout << "Password deleted." << std::endl;
+
+            std::cout << std::endl << "Press Enter to continue... " << std::setfill('\0');
+            std::cin.ignore();
+            std::cin.get();
+            
             return true;
         }
 
     };
-    
     std::cout << "No service with such name" << std::endl;
+    
+    std::cout << std::endl << "Press Enter to continue... " << std::setfill('\0');
+    std::cin.ignore();
+    std::cin.get();
     return false;
 }
 
@@ -233,14 +248,14 @@ bool PasswordHandler::edit_password(std::string service_to_delete, std::string e
                 std::string new_password{};
                 std::string new_password_copy{}
                 ;
-                std::cout << "Enter the new password for " << std::get<0>(*i) << std::endl;
+                std::cout << "Enter the new password for " << std::get<0>(*i) << ": ";
                 std::cin >> new_password;
-                std::cout << "Enter the new password again." << std::endl;
+                std::cout << "Enter the new password again: ";
                 std::cin >> new_password_copy;
 
                 if(new_password != new_password_copy)
                 {
-                    std::cout << "Passwords doen't match. Try again." << std::endl;
+                    std::cout << std::endl << "Passwords doen't match. Try again." << std::endl;
                     new_password = "";
                     new_password_copy = "";
                     continue;
@@ -250,10 +265,20 @@ bool PasswordHandler::edit_password(std::string service_to_delete, std::string e
                 std::get<1>(*i) = new_password;
                 std::get<2>(*i) = edit_time;
                 std:: cout << "Password changed." << std::endl;
+
+                std::cout << std::endl << "Press Enter to continue... " << std::setfill('\0');
+                std::cin.ignore();
+                std::cin.get();
                 return true;
             }
         }
     };
     std::cout << "No service with such name" << std::endl;
+    
+        //PAUSE
+    std::cout << std::endl << "Press Enter to continue... " << std::setfill('\0');
+    std::cin.ignore();
+    std::cin.get();
+    
     return false;
 }

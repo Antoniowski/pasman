@@ -25,8 +25,11 @@ int key = 0;
 
 void show_procedure(TextHandler& th, PasswordHandler& ph)
 {
+    system("clear");
+    th.print_message(message_id::WELCOME_MESSAGE);
     th.print_message(message_id::CHOOSE_MESSAGE);
     th.show_selection_menu();
+    th.print_message(message_id::INSERT_CHOICE_MESSAGE);
     
     bool good_choice = false;
     string choice{};
@@ -43,15 +46,23 @@ void show_procedure(TextHandler& th, PasswordHandler& ph)
         switch (stoi(choice))
         {
             case 1:
+                system("clear");
+                th.print_message(message_id::WELCOME_MESSAGE);
                 ph.show_passwords();
                 good_choice = true;
                 break;
             case 2:
             {
                 string c{};
+                
+                system("clear");
+                th.print_message(message_id::WELCOME_MESSAGE);
                 ph.show_services();
                 th.print_message(message_id::INSERT_SERVICE_MESSAGE);
                 cin >> c;
+                
+                system("clear");
+                th.print_message(message_id::WELCOME_MESSAGE);
                 ph.show_password(c);
                 good_choice = true;
                 break;
@@ -85,11 +96,6 @@ void edit_procedure(TextHandler& th, PasswordHandler& ph, bool& save_status)
     th.print_message(message_id::INSERT_SERVICE_MESSAGE);
     cin >> service_to_edit;
     save_status = ph.edit_password(service_to_edit, get_today_date());
-
-    th.print_message(message_id::CONTINUE_MESSAGE);
-    cin.ignore();
-    cin.get();
-
 }
 
 void delete_procedure(TextHandler& th, PasswordHandler& ph, bool& save_status)
@@ -98,11 +104,6 @@ void delete_procedure(TextHandler& th, PasswordHandler& ph, bool& save_status)
     th.print_message(message_id::INSERT_SERVICE_MESSAGE);
     cin >> service_to_delete;
     save_status = ph.delete_password(service_to_delete);
-
-    th.print_message(message_id::CONTINUE_MESSAGE);
-    cin.ignore();
-    cin.get();
-
 }
 
 void save_procedure(TextHandler& th, PasswordHandler& ph, bool& save_status)
@@ -124,6 +125,8 @@ bool auth_procedure(TextHandler& th)
 
 void setting_procedure(TextHandler& th, PasswordHandler& ph)
 {
+    system("clear");
+    th.print_message(message_id::WELCOME_MESSAGE);
     fstream res_file;
     res_file.open(resource_path + CONFIG_FILE_NAME, ios::in | ios::out);
     fstream path_file;
@@ -156,8 +159,8 @@ void setting_procedure(TextHandler& th, PasswordHandler& ph)
                     break;
                 }
                 user = new_user;
-                res_file << simple_encryption("username=" + user, key);
-                res_file << simple_encryption("password=" + pass, key);
+                res_file << simple_encryption("username=" + user, key) << endl;
+                res_file << simple_encryption("password=" + pass, key) << endl;
                 good_choose = true;
             }
             break;
@@ -203,6 +206,9 @@ void setting_procedure(TextHandler& th, PasswordHandler& ph)
                 res_file << resource_path << endl;
                 good_choose = true;
             }
+            break;
+        case 4:
+            good_choose = true;
             break;
         default:
             th.print_message(message_id::INSERT_ERROR_MESSAGE);
@@ -383,7 +389,7 @@ int main()
         if(status.first_run)
             status.first_run = false;
         
-        cout << "Insert a value to select what to do." << endl;
+        txt_handler.print_message(message_id::INSERT_CHOICE_MESSAGE);
         cin >> scelta;
 
         if(!is_number(scelta))
@@ -403,10 +409,14 @@ int main()
             add_procedure(txt_handler, pass_handler, status.pending_save);
             break;           
         case 3:
+            system("clear");
+            txt_handler.print_message(message_id::WELCOME_MESSAGE);
             pass_handler.show_services();
             edit_procedure(txt_handler, pass_handler, status.pending_save);
             break;
-        case 4:
+        case 4:            
+            system("clear");
+            txt_handler.print_message(message_id::WELCOME_MESSAGE);
             pass_handler.show_services();
             delete_procedure(txt_handler, pass_handler, status.pending_save);
             break;
