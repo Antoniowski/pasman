@@ -17,6 +17,15 @@ gh repo clone Antoniowski/pasman
 ```
 
 Then open the terminal and navigate to the folder where you cloned the repo and use make to create the executable.
+If you cannot use the make command you can manually compile files by using the following instructions:
+```
+g++ -c ./src/PasswordHandler/passwordhandler.cpp
+g++ -c ./src/TextHandler/texthandler.cpp
+g++ -c ./src/Utility/utility.cpp
+g++ -c ./src/main.cpp
+g++ texthandler.o passwordhandler.o utility.o main.o -o pasman
+
+```
 And that's it, now you just need to use the following comand to start using pasman
 
 ```
