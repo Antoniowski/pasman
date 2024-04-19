@@ -24,13 +24,13 @@ g++ -c ./src/TextHandler/texthandler.cpp
 g++ -c ./src/Utility/utility.cpp
 g++ -c ./src/main.cpp
 g++ texthandler.o passwordhandler.o utility.o main.o -o pasman
-
 ```
 And that's it, now you just need to use the following comand to start using pasman
 
 ```
 ./pasman
 ```
+or, if on Windows open the file pasman.exe
 
 ## Initialization
 
