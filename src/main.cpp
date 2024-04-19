@@ -6,6 +6,14 @@
 #include "./Utility/utility.h"
 #include <stdio.h>
 
+#ifdef _WIN32
+    #define CLEAR "cls"
+#elif _WIN64
+    #define CLEAR "cls"
+#else
+    #define CLEAR "clear"
+#endif
+
 
 using namespace std;
 
@@ -28,7 +36,7 @@ int key = 0;
 
 void show_procedure(TextHandler& th, PasswordHandler& ph)
 {
-    system("clear");
+    system(CLEAR);
     th.print_message(message_id::WELCOME_MESSAGE);
     th.print_message(message_id::CHOOSE_MESSAGE);
     th.show_selection_menu();
@@ -49,7 +57,7 @@ void show_procedure(TextHandler& th, PasswordHandler& ph)
         switch (stoi(choice))
         {
             case 1:
-                system("clear");
+                system(CLEAR);
                 th.print_message(message_id::WELCOME_MESSAGE);
                 ph.show_passwords();
                 good_choice = true;
@@ -58,13 +66,13 @@ void show_procedure(TextHandler& th, PasswordHandler& ph)
             {
                 string c{};
                 
-                system("clear");
+                system(CLEAR);
                 th.print_message(message_id::WELCOME_MESSAGE);
                 ph.show_services();
                 th.print_message(message_id::INSERT_SERVICE_MESSAGE);
                 cin >> c;
                 
-                system("clear");
+                system(CLEAR);
                 th.print_message(message_id::WELCOME_MESSAGE);
                 ph.show_password(c);
                 good_choice = true;
@@ -128,7 +136,7 @@ bool auth_procedure(TextHandler& th)
 
 void setting_procedure(TextHandler& th, PasswordHandler& ph)
 {
-    system("clear");
+    system(CLEAR);
     th.print_message(message_id::WELCOME_MESSAGE);
     fstream res_file;
     res_file.open(resource_path + CONFIG_FILE_NAME, ios::in | ios::out);
@@ -380,11 +388,11 @@ int main()
             "clear" - linux, unix
             "cls" - windows
     */
-    system("clear");
+    system(CLEAR);
    
     while (status.exit == false)
     {
-        system("clear");
+        system(CLEAR);
 
         txt_handler.print_message(message_id::WELCOME_MESSAGE);
         txt_handler.selection_menu(status.pending_save, user, status.first_run);
@@ -412,13 +420,13 @@ int main()
             add_procedure(txt_handler, pass_handler, status.pending_save);
             break;           
         case 3:
-            system("clear");
+            system(CLEAR);
             txt_handler.print_message(message_id::WELCOME_MESSAGE);
             pass_handler.show_services();
             edit_procedure(txt_handler, pass_handler, status.pending_save);
             break;
         case 4:            
-            system("clear");
+            system(CLEAR);
             txt_handler.print_message(message_id::WELCOME_MESSAGE);
             pass_handler.show_services();
             delete_procedure(txt_handler, pass_handler, status.pending_save);
@@ -437,7 +445,7 @@ int main()
         }
     }
     
-    system("clear");
+    system(CLEAR);
     txt_handler.print_message(message_id::EXIT_MESSAGE);
     return 0;
 }
