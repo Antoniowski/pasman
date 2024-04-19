@@ -4,7 +4,7 @@ pasman is an easy way to storage your password locally using your terminal
 
 ## How to setup
 
-You can download pasman last version at this [link] or alternatively you can compile it yourself from the source code.
+You can download pasman last version at this [link](https://github.com/Antoniowski/pasman/releases) or alternatively you can compile it yourself from the source code.
 
 If you choose the latter then firstly clone this repo on your pc using the git clone command:
 
