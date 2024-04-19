@@ -26,11 +26,21 @@ g++ -c ./src/main.cpp
 g++ texthandler.o passwordhandler.o utility.o main.o -o pasman
 ```
 And that's it, now you just need to use the following comand to start using pasman
-
 ```
 ./pasman
 ```
 or, if on Windows open the file pasman.exe
+
+N.B. If you are on Mac you need to specify the C++ verstion to the compiler. To do so, add the std flag to the g++
+commands as follows:
+
+```
+g++ -std=c++20  -c ./src/PasswordHandler/passwordhandler.cpp
+g++ -std=c++20 -c ./src/TextHandler/texthandler.cpp
+g++ -std=c++20 -c ./src/Utility/utility.cpp
+g++ -std=c++20 -c ./src/main.cpp
+g++ -std=c++20 texthandler.o passwordhandler.o utility.o main.o -o pasman
+```
 
 ## Initialization
 
