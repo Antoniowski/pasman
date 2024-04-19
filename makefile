@@ -1,7 +1,7 @@
 all: texthandler.o passwordhandler.o utility.o main.o pasman clean
 
 passwordhandler.o: ./src/PasswordHandler/passwordhandler.cpp ./src/PasswordHandler/passwordhandler.h
-	g++  -c ./src/PasswordHandler/passwordhandler.cpp
+	g++ -c ./src/PasswordHandler/passwordhandler.cpp
 
 texthandler.o: ./src/TextHandler/texthandler.cpp ./src/TextHandler/texthandler.h
 	g++ -c ./src/TextHandler/texthandler.cpp
