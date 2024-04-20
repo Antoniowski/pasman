@@ -214,7 +214,7 @@ void setting_procedure(TextHandler& th, PasswordHandler& ph)
                     new_path += "/";
 
                 resource_path = new_path;
-                res_file << resource_path << endl;
+                path_file << resource_path << endl;
                 good_choose = true;
             }
             break;
