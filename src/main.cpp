@@ -143,8 +143,6 @@ void setting_procedure(TextHandler& th, PasswordHandler& ph)
     th.print_message(message_id::WELCOME_MESSAGE);
     fstream res_file;
     res_file.open(resource_path + CONFIG_FILE_NAME, ios::in | ios::out);
-    fstream path_file;
-    path_file.open(PATH_FILE_NAME , ios::in | ios::out);
     bool good_choose = false;
     th.setting_selection_menu();
     while (!good_choose)
@@ -175,6 +173,7 @@ void setting_procedure(TextHandler& th, PasswordHandler& ph)
                 user = new_user;
                 res_file << simple_encryption("username=" + user, key) << endl;
                 res_file << simple_encryption("password=" + pass, key) << endl;
+                res_file.close();
                 good_choose = true;
             }
             break;
@@ -201,27 +200,37 @@ void setting_procedure(TextHandler& th, PasswordHandler& ph)
                 pass = new_pass;
                 res_file << simple_encryption("username=" + user, key) << endl;
                 res_file << simple_encryption("password=" + pass, key) << endl;
+                res_file.close();
                 good_choose = true;
             }
             break;
         case 3:
             {
+                fstream path_file;
+                path_file.open(PATH_FILE_NAME , ios::in | ios::out);
                 string new_path{};
                 th.print_message(message_id::NEW_PATH_MESSAGE);
                 cin >> new_path;
 
-                if(new_path == "")
-                    new_path = "./resources/";
+                if(new_path == "" || new_path == " ")
+                    new_path = "./";
 
                 if(!endsWith(new_path, "/"))
                     new_path += "/";
 
+                string old_path = resource_path;
                 resource_path = new_path;
-                res_file << resource_path << endl;
+                path_file << resource_path << endl;
+                path_file.close();
+                move_file(old_path+CONFIG_FILE_NAME, resource_path+CONFIG_FILE_NAME);
+                move_file(old_path+PASS_FILE_NAME, resource_path+PASS_FILE_NAME);
+                //DA AGGIUNGERE CHIUSURA PATH
+                res_file.close();
                 good_choose = true;
             }
             break;
         case 4:
+            res_file.close();
             good_choose = true;
             break;
         default:
@@ -229,10 +238,7 @@ void setting_procedure(TextHandler& th, PasswordHandler& ph)
             good_choose = false;
             break;
         }
-    }
-    res_file.close();
-    path_file.close();
-    
+    }    
 }
 
 void init_procedure(TextHandler& th)

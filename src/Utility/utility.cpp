@@ -1,4 +1,6 @@
 #include "./utility.h"
+#include <fstream>
+#include <stdlib.h>
 
 bool is_number(const std::string& stringa)
 {
@@ -117,3 +119,29 @@ bool endsWith(const std::string& fullString, const std::string& ending)
                               ending.size(), 
                               ending) == 0; 
 } 
+
+bool move_file(const std::string& from_path, const std::string& to_path)
+{
+    if(!file_exists(from_path))
+    {
+        std::cout << from_path << "doesn't exist." << std::endl;
+        return false;
+    }
+
+    std::fstream from_file;
+    std::fstream to_file;
+    std::string helper;
+    from_file.open(from_path, std::ios::in);
+    to_file.open(to_path, std::ios::out);
+    while(from_file >> helper)
+    {
+        to_file << helper << std::endl;
+        helper = "";
+    }
+
+    from_file.close();
+    to_file.close();
+
+    remove((from_path).c_str());
+    return true;
+}
