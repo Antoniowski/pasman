@@ -43,7 +43,9 @@ void TextHandler::show_selection_menu()
     << left << setw(max_dim) << "1." 
     << right << setw(max_dim) << "All" << endl
     << left << setw(max_dim) << "2."
-    << right << setw(max_dim) << "Select service" << endl << endl << setfill('\0');
+    << right << setw(max_dim) << "Select service" << endl
+    << left << setw(max_dim) << "3." 
+    << right << setw(max_dim) << "Go back" << endl << endl << setfill('\0');
 }
 
 void TextHandler::setting_selection_menu()

@@ -78,6 +78,9 @@ void show_procedure(TextHandler& th, PasswordHandler& ph)
                 good_choice = true;
                 break;
             }
+            case 3:
+                good_choice =true;
+                break;
             default:
                 th.print_message(message_id::INSERT_ERROR_MESSAGE);
                 break;
