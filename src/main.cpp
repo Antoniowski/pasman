@@ -4,6 +4,7 @@
 #include "./TextHandler/texthandler.h"
 #include "./PasswordHandler/passwordhandler.h"
 #include "./Utility/utility.h"
+#include "./db/database.h"
 #include <stdio.h>
 
 #ifdef _WIN32
@@ -366,6 +367,7 @@ void login_procedure(TextHandler& th)
 
 int main()
 {
+    //Database* db = Database::getInstance();
     //Get resource path
     fstream path_file;
     path_file.open(PATH_FILE_NAME, ios::in);

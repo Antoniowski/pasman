@@ -1,4 +1,7 @@
-all: texthandler.o passwordhandler.o utility.o main.o pasman clean
+all: texthandler.o passwordhandler.o utility.o database.o main.o pasman clean
+
+database.o: ./src/db/database.cpp ./src/db/database.h
+	g++ -c ./src/db/database.cpp
 
 passwordhandler.o: ./src/PasswordHandler/passwordhandler.cpp ./src/PasswordHandler/passwordhandler.h
 	g++ -c ./src/PasswordHandler/passwordhandler.cpp
@@ -12,8 +15,8 @@ utility.o: ./src/Utility/utility.cpp ./src/Utility/utility.h
 main.o: ./src/main.cpp
 	g++ -c ./src/main.cpp
 
-pasman: texthandler.o passwordhandler.o utility.o main.o 
-	g++ texthandler.o passwordhandler.o utility.o main.o -o pasman
+pasman: texthandler.o passwordhandler.o utility.o database.o main.o 
+	g++ texthandler.o passwordhandler.o utility.o database.o main.o -o pasman -lsqlite3
 
 clean:
 	rm -f *.o
