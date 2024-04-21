@@ -300,7 +300,7 @@ void init_procedure(TextHandler& th, Database*& db)
     db->insert(
         "LOGIN", 
         {"USERNAME","PASSWORD"}, 
-        {simple_encryption(username, key),simple_encryption(password, key)});
+        {username, password});
     db->insert(
         "PATH",
         {"URI"},
@@ -384,6 +384,8 @@ int main()
         ex_file.close();
     }else
     {
+        cout << db->get_value("USERNAME", "LOGIN", "");
+        cout << db->get_value("PASSWORD", "LOGIN", "");
         exit(0);
         login_procedure(txt_handler);
     }

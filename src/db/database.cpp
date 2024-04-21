@@ -56,22 +56,22 @@ bool Database::disconnect()
     
 }
 
-void Database::dropTables()
+void Database::drop_table()
 {
     //Delete all tables in database.
 
     connect();
     std::string query_basis = "DROP TABLE IF EXISTS ";
-    std::vector<std::string> tables = {"LOGIN, PASSWORDS, PATH"};
+    std::vector<std::string> tables = {"LOGIN", "PASSWORDS", "PATH"};
     for(std::string t: tables)
     {
-        sqlite3_exec(sqlite_db, (query_basis+t).c_str(), NULL, NULL, NULL);
+        sqlite3_exec(sqlite_db, (query_basis+t+";").c_str(), NULL, NULL, NULL);
     }
     disconnect();
 
 }
 
-void Database::createTables()
+void Database::create_tables()
 {
     connect();    
     sqlite3_exec(sqlite_db, LOGIN_CREATE_SCHEMA.c_str(), NULL, NULL, NULL);
@@ -82,8 +82,8 @@ void Database::createTables()
 
 void Database::first_init()
 {
-    dropTables();
-    createTables();
+    drop_table();
+    create_tables();
 }
 
 void Database::init()
@@ -123,6 +123,43 @@ bool Database::insert(std::string table, std::vector<std::string> colums, std::v
 
     disconnect();
     return true;
+}
+
+std::string Database::get_value(std::string column, std::string table, std::string where_condition)
+{
+    std::string query_1 = "SELECT ";
+    std::string queey_2 = " FROM ";
+    std::string query_3 = " WHERE ";
+    std::string query;
+    if(where_condition != "")
+    {
+        query = query_1 + column + queey_2 + table + query_3 + where_condition + ";";
+        std::cout << query;
+    }else{
+        query = query_1 + column + queey_2 + table + ";";
+        std::cout << query << std::endl;
+    }
+
+    connect();
+    sqlite3_stmt* statement;
+    const void* result;
+    int rc = sqlite3_prepare_v2(sqlite_db, query.c_str(),query.length(),&statement, nullptr);
+    if(rc != SQLITE_OK)
+    {
+        disconnect();
+        return "Error\n";
+    }
+
+    std::string x = "";
+    while ((rc = sqlite3_step(statement)) == SQLITE_ROW)
+    {
+        result = sqlite3_column_text(statement, 0);
+        std::string string_result(static_cast<char const *>(result));
+        x = string_result;
+    }
+    sqlite3_finalize(statement);
+    disconnect();
+    return x;
 }
 
 
