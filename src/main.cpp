@@ -242,7 +242,7 @@ void setting_procedure(TextHandler& th, PasswordHandler& ph)
     }    
 }
 
-void init_procedure(TextHandler& th)
+void init_procedure(TextHandler& th, Database*& db)
 {
     bool password_is_good = false;
     string username;
@@ -297,17 +297,14 @@ void init_procedure(TextHandler& th)
         
         th.print_message(message_id::INIT_06);
     }
-
-    fstream conf_file;
-    conf_file.open(resource_path + CONFIG_FILE_NAME, ios::out);
-    conf_file << simple_encryption("username="+username, key) << endl;
-    conf_file << simple_encryption("password="+password, key) << endl;
-    fstream path_file;
-    path_file.open("./" + PATH_FILE_NAME, ios::out);
-    path_file << resource_path << endl;
-
-    conf_file.close();
-    path_file.close();
+    db->insert(
+        "LOGIN", 
+        {"USERNAME","PASSWORD"}, 
+        {simple_encryption(username, key),simple_encryption(password, key)});
+    db->insert(
+        "PATH",
+        {"URI"},
+        {resource_path});
 }
 
 
@@ -331,6 +328,7 @@ void login_procedure(TextHandler& th)
         key = stoi(k);
     }
     
+    //Sostituire con db
     fstream my_conf;
     my_conf.open(resource_path + CONFIG_FILE_NAME, ios::in);
     my_conf >> user;
@@ -340,6 +338,8 @@ void login_procedure(TextHandler& th)
     pass = simple_decryption(pass, key);
     pass = pass.substr(pass.find("=")+1, pass.length()-1);
     my_conf.close();
+
+
 
     int tries = 0;
     bool loggin_success = false;
@@ -367,28 +367,24 @@ void login_procedure(TextHandler& th)
 
 int main()
 {
-    //Database* db = Database::getInstance();
-    //Get resource path
-    fstream path_file;
-    path_file.open(PATH_FILE_NAME, ios::in);
-    path_file >> resource_path;
-    path_file.close();
-
-    status status;
-    status.init = !file_exists(resource_path + CONFIG_FILE_NAME);
+    Database* db = Database::getInstance();
     TextHandler txt_handler = TextHandler();
+    status status;
+
+    status.init = !file_exists("exfls");
 
     if(status.init == true)
     {
-        if(file_exists(resource_path+PASS_FILE_NAME))
-        {
-            remove((resource_path+PASS_FILE_NAME).c_str());
-        }
-            
-        init_procedure(txt_handler);
+        cout << "INIT" << endl;
+        db->first_init();
+        init_procedure(txt_handler, db);
         status.init = false;
+        fstream ex_file;
+        ex_file.open("exfls", ios::out);
+        ex_file.close();
     }else
     {
+        exit(0);
         login_procedure(txt_handler);
     }
     

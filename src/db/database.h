@@ -1,6 +1,8 @@
 #include <stdlib.h>
 #include <string>
+#include <vector>
 #include <sqlite3.h>
+#include <iostream>
 
 class Database
 {
@@ -28,8 +30,12 @@ protected:
     ~Database();
     bool connect();
     bool disconnect();
+    void dropTables();
+    void createTables();
 public:
     void first_init();
+    void init();
+    bool insert(std::string, std::vector<std::string>,std::vector<std::string>);
 
     static Database* getInstance();
 
