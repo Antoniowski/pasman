@@ -260,10 +260,6 @@ void init_procedure(TextHandler& th, Database*& db)
         "LOGIN", 
         {"USERNAME","PASSWORD"}, 
         {simple_encryption(username, key), simple_encryption(password, key)});
-    db->insert(
-        "PATH",
-        {"URI"},
-        {""});
 }
 
 
