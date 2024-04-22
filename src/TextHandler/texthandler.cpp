@@ -58,8 +58,6 @@ void TextHandler::setting_selection_menu()
     << left << setw(max_dim) << "2." 
     << right << setw(max_dim) << "Change login password" << endl
     << left << setw(max_dim) << "3."
-    << right << setw(max_dim) << "Change save path" << endl 
-    << left << setw(max_dim) << "4."
     << right << setw(max_dim) << "Go back" << endl << endl << setfill('\0');
     
 }

@@ -40,7 +40,7 @@ bool Database::connect()
 {
     //Connect to the local database
     int rc;
-    rc = sqlite3_open("./src/db/db_resources/localdata.db", &sqlite_db);
+    rc = sqlite3_open("./localdata.db", &sqlite_db);
     if(rc)
     {
         return true;
@@ -157,7 +157,6 @@ std::string Database::get_value(std::string column, std::string table, std::stri
         result = sqlite3_column_text(statement, 0);
         std::string string_result(static_cast<char const *>(result));
         x = string_result;
-        std::cout << x << std::endl;
     }
     sqlite3_finalize(statement);
     disconnect();

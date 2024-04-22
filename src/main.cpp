@@ -24,7 +24,6 @@ struct status
 const string PASS_FILE_NAME = "pass.txt";
 const string CONFIG_FILE_NAME = "config.txt";
 const string PATH_FILE_NAME = "path.txt";
-string resource_path = "./pasman/";
 string user{};
 string pass{};
 int key = 0;
@@ -204,9 +203,6 @@ void setting_procedure(TextHandler& th, PasswordHandler& ph, Database* database)
         case 3:
             good_choose = true;
             break;
-        case 4:
-            good_choose = true;
-            break;
         default:
             th.print_message(message_id::INSERT_ERROR_MESSAGE);
             good_choose = false;
@@ -257,17 +253,7 @@ void init_procedure(TextHandler& th, Database*& db)
 
             good_key = true;
             key = stoi(enc_key);
-        }
-
-        th.print_message(message_id::INSERT_PATH_MESSAGE);
-        cin >> path;
-        
-        if(path != "")
-            resource_path = path;
-
-        if(!endsWith(resource_path, "/"))
-            resource_path += "/";
-        
+        }   
         th.print_message(message_id::INIT_06);
     }
     db->insert(
@@ -277,7 +263,7 @@ void init_procedure(TextHandler& th, Database*& db)
     db->insert(
         "PATH",
         {"URI"},
-        {resource_path});
+        {""});
 }
 
 

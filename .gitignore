@@ -46,3 +46,4 @@ config.txt
 TODO.txt
 exfls
 /src/db/db_resources/localdata.db
+localdata.db
