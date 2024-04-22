@@ -299,7 +299,7 @@ bool PasswordHandler::edit_password(std::string service_to_delete, std::string e
 
                 if(new_password != new_password_copy)
                 {
-                    std::cout << std::endl << "Passwords doen't match. Try again." << std::endl;
+                    std::cout << std::endl << "Passwords doesn't match. Try again." << std::endl;
                     new_password = "";
                     new_password_copy = "";
                     continue;
