@@ -62,8 +62,9 @@ PasswordHandler::PasswordHandler(Database* database, int key)
      * The cosntructor will initialize the class using the encrypted passwords store in the db
      * 
     */
-    
-    std::vector<password_row> encrypted_rows = database->get_password_rows("");
+    this->database = database;
+
+    std::vector<password_row> encrypted_rows = this->database->get_password_rows("");
 
     for(password_row enc_row : encrypted_rows)
     {
@@ -225,17 +226,17 @@ void PasswordHandler::save_locally(std::string path, int key)
     myFile.close();
 }
 
-void PasswordHandler::save_locally(Database* database, int key)
+void PasswordHandler::save_locally(int key)
 {
     /**
      * This fuction is used to save all the changes made on the password array in the computer memory.
      * Doing so everytime the program is open all the passwords that are saved locally can be retrieved.
     */
     std::string table = "PASSWORDS";
-    database->full_truncate(table);
+    this->database->full_truncate(table);
     for(password_row rows: this->passwords)
     {
-        database->insert(table,
+        this->database->insert(table,
                          {"SERVICE", "PASSWORD", "LAST_UPDATE"},
                          {simple_encryption(std::get<0>(rows), key),
                           simple_encryption(std::get<1>(rows), key),

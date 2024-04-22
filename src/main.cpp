@@ -116,7 +116,7 @@ void delete_procedure(TextHandler& th, PasswordHandler& ph, bool& save_status)
 
 void save_procedure(TextHandler& th, PasswordHandler& ph, bool& save_status, Database* database)
 {
-    ph.save_locally(database, key);
+    ph.save_locally(key);
     save_status = false;
 }
 

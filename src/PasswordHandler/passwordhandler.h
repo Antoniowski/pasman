@@ -28,6 +28,7 @@ class PasswordHandler
 private:
     std::string local_file_path;;
     std::vector<password_row> passwords;
+    Database* database;
     
 public:
     PasswordHandler(std::string, int);
@@ -41,7 +42,7 @@ public:
     bool delete_password(std::string);
     bool edit_password(std::string, std::string);
     void save_locally(std::string, int);
-    void save_locally(Database*, int);
+    void save_locally(int);
 };
 
 
