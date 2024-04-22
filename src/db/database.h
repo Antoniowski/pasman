@@ -3,6 +3,7 @@
 #include <vector>
 #include <sqlite3.h>
 #include <iostream>
+#include <tuple>
 
 
 class Database
@@ -33,11 +34,13 @@ protected:
     void drop_table();
     void create_tables();
 public:
+    void full_truncate(std::string);
     void first_init();
     void init();
     bool insert(std::string, std::vector<std::string>,std::vector<std::string>);
     std::string get_values(std::string, std::string);
     std::string get_value(std::string, std::string, std::string);
+    std::vector<std::tuple<std::string,std::string,std::string>> get_password_rows(std::string);
 
 
     static Database* getInstance();

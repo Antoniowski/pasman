@@ -2,7 +2,6 @@
 #define PASSWORD_HANDLER_H
 
 #include "../Utility/utility.h"
-
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -10,9 +9,9 @@
 #include <vector>
 #include <ctime>
 #include <iomanip>
+#include "../db/database.h"
 
 typedef std::tuple<std::string,std::string, std::string> password_row;
-
 
 
 /*
@@ -32,6 +31,7 @@ private:
     
 public:
     PasswordHandler(std::string, int);
+    PasswordHandler(Database*, int);
     ~PasswordHandler();
     void show_password(std::string);
     void show_passwords();
@@ -41,6 +41,7 @@ public:
     bool delete_password(std::string);
     bool edit_password(std::string, std::string);
     void save_locally(std::string, int);
+    void save_locally(Database*, int);
 };
 
 

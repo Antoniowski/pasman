@@ -1,10 +1,7 @@
 //Written by Antonio "Antoniowski" Romano
-
-
 #include "./TextHandler/texthandler.h"
 #include "./PasswordHandler/passwordhandler.h"
 #include "./Utility/utility.h"
-#include "./db/database.h"
 #include <stdio.h>
 
 #ifdef _WIN32
@@ -121,9 +118,9 @@ void delete_procedure(TextHandler& th, PasswordHandler& ph, bool& save_status)
     save_status = ph.delete_password(service_to_delete);
 }
 
-void save_procedure(TextHandler& th, PasswordHandler& ph, bool& save_status)
+void save_procedure(TextHandler& th, PasswordHandler& ph, bool& save_status, Database* database)
 {
-    ph.save_locally(resource_path + PASS_FILE_NAME, key);
+    ph.save_locally(database, key);
     save_status = false;
 }
 
@@ -300,7 +297,7 @@ void init_procedure(TextHandler& th, Database*& db)
     db->insert(
         "LOGIN", 
         {"USERNAME","PASSWORD"}, 
-        {username, password});
+        {simple_encryption(username, key), simple_encryption(password, key)});
     db->insert(
         "PATH",
         {"URI"},
@@ -309,7 +306,7 @@ void init_procedure(TextHandler& th, Database*& db)
 
 
 
-void login_procedure(TextHandler& th)
+void login_procedure(TextHandler& th, Database* db)
 {
     bool is_key_number = false;
     string k;
@@ -328,18 +325,10 @@ void login_procedure(TextHandler& th)
         key = stoi(k);
     }
     
-    //Sostituire con db
-    fstream my_conf;
-    my_conf.open(resource_path + CONFIG_FILE_NAME, ios::in);
-    my_conf >> user;
+    user = db->get_value("USERNAME", "LOGIN", "");
     user = simple_decryption(user, key);
-    user = user.substr(user.find("=")+1, user.length()-1);
-    my_conf >> pass;
+    pass = db->get_value("PASSWORD", "LOGIN", "");
     pass = simple_decryption(pass, key);
-    pass = pass.substr(pass.find("=")+1, pass.length()-1);
-    my_conf.close();
-
-
 
     int tries = 0;
     bool loggin_success = false;
@@ -375,7 +364,6 @@ int main()
 
     if(status.init == true)
     {
-        cout << "INIT" << endl;
         db->first_init();
         init_procedure(txt_handler, db);
         status.init = false;
@@ -384,14 +372,11 @@ int main()
         ex_file.close();
     }else
     {
-        cout << db->get_value("USERNAME", "LOGIN", "");
-        cout << db->get_value("PASSWORD", "LOGIN", "");
-        exit(0);
-        login_procedure(txt_handler);
+        login_procedure(txt_handler, db);
     }
     
     string scelta{};
-    PasswordHandler pass_handler = PasswordHandler(resource_path+"pass.txt", key);
+    PasswordHandler pass_handler = PasswordHandler(db, key);
     /*
         System specific:
             "clear" - linux, unix
@@ -441,7 +426,7 @@ int main()
             delete_procedure(txt_handler, pass_handler, status.pending_save);
             break;
         case 5:
-            save_procedure(txt_handler, pass_handler, status.pending_save);
+            save_procedure(txt_handler, pass_handler, status.pending_save, db);
             break;
         case 6:
             setting_procedure(txt_handler, pass_handler);

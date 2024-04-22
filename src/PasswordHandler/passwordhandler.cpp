@@ -2,6 +2,7 @@
 
 PasswordHandler::PasswordHandler(std::string path, int key)
 {
+    //DEPRECATED
     /**
      * Constructor of the PasswordHandler class
      * 
@@ -53,6 +54,28 @@ PasswordHandler::PasswordHandler(std::string path, int key)
 
 };
 
+PasswordHandler::PasswordHandler(Database* database, int key)
+{
+    /**
+     * Constructor of the PasswordHandler class
+     * 
+     * The cosntructor will initialize the class using the encrypted passwords store in the db
+     * 
+    */
+    
+    std::vector<password_row> encrypted_rows = database->get_password_rows("");
+
+    for(password_row enc_row : encrypted_rows)
+    {
+        enc_row = std::make_tuple(simple_decryption(std::get<0>(enc_row) ,key), 
+                                  simple_decryption(std::get<1>(enc_row) ,key), 
+                                  simple_decryption(std::get<2>(enc_row) ,key));
+        this->passwords.push_back(enc_row);
+    }
+
+    
+
+};
 PasswordHandler::~PasswordHandler(){};
 
 void PasswordHandler::show_password(std::string service_name)
@@ -173,6 +196,7 @@ void PasswordHandler::add_new_password(std::string service_name, std::string pas
 
 void PasswordHandler::save_locally(std::string path, int key)
 {
+    //DEPRECATED
     /**
      * This fuction is used to save all the changes made on the password array in the computer memory.
      * Doing so everytime the program is open all the passwords that are saved locally can be retrieved.
@@ -199,6 +223,26 @@ void PasswordHandler::save_locally(std::string path, int key)
     }
 
     myFile.close();
+}
+
+void PasswordHandler::save_locally(Database* database, int key)
+{
+    /**
+     * This fuction is used to save all the changes made on the password array in the computer memory.
+     * Doing so everytime the program is open all the passwords that are saved locally can be retrieved.
+    */
+    std::string table = "PASSWORDS";
+    database->full_truncate(table);
+    for(password_row rows: this->passwords)
+    {
+        std::cout << "SAVE" << std::endl;
+        database->insert(table,
+                         {"SERVICE", "PASSWORD", "LAST_UPDATE"},
+                         {simple_encryption(std::get<0>(rows), key),
+                          simple_encryption(std::get<1>(rows), key),
+                          simple_encryption(std::get<2>(rows), key)});
+    }
+
 }
 
 bool PasswordHandler::delete_password(std::string service_to_delete)

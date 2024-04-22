@@ -1,7 +1,11 @@
+// Created by Antonio "Antoniowski" Romano
+
 /*\
     Class used to abstract the database and its logics.
     Every operation to do on the database will be filtered by the database class.
 */
+
+
 #include "database.h"
 
 Database* Database::_instance = nullptr;
@@ -118,7 +122,6 @@ bool Database::insert(std::string table, std::vector<std::string> colums, std::v
         }
     }
     std::string query = query_basis_1+table+"("+colums_string+query_basis_2+values_string+query_basis_3;
-    std::cout << query << std::endl;
     sqlite3_exec(sqlite_db, query.c_str(), NULL,NULL,NULL);
 
     disconnect();
@@ -134,10 +137,8 @@ std::string Database::get_value(std::string column, std::string table, std::stri
     if(where_condition != "")
     {
         query = query_1 + column + queey_2 + table + query_3 + where_condition + ";";
-        std::cout << query;
     }else{
         query = query_1 + column + queey_2 + table + ";";
-        std::cout << query << std::endl;
     }
 
     connect();
@@ -162,6 +163,72 @@ std::string Database::get_value(std::string column, std::string table, std::stri
     return x;
 }
 
+std::vector<std::tuple<std::string, std::string,std::string>> Database::get_password_rows(std::string service_name)
+{
+    /**
+     * Returns a password row with service, password and last update date.
+     * If service_name is "" (empty) returns all the password rows.
+     * 
+     * 
+     * If there is an aerroe with the query statement return a vector with only one tuple. The error tuple
+     * contains only ERROR as values.
+    */
+    std::string query_1 = "SELECT * FROM PASSWORDS";
+    std::string query_2 = " WHERE SERVICE = ";
+    std::string query_end= ";";
+    std::string query = "";
+    if(service_name != "")
+    {
+        query = query_1 + query_2 + "'"+service_name+"'"+query_end;
+    }else{
+        query = query_1 + query_end;
+    }
+
+    connect();
+    sqlite3_stmt* statement;
+    int rc = sqlite3_prepare_v2(sqlite_db, query.c_str(),query.length(),&statement, nullptr);
+    if(rc != SQLITE_OK)
+    {
+        disconnect();
+        std::tuple<std::string, std::string, std::string> error_tuple = std::make_tuple("ERROR", "ERROR", "ERROR");
+        std::vector<std::tuple<std::string, std::string, std::string>> error_vector = {error_tuple};
+        return error_vector;
+    }
+
+    const void* result;
+    std::string username = "";
+    std::string password = "";
+    std::string last_update = "";
+    std::tuple<std::string,std::string,std::string> single_tuple;
+    std::vector<std::tuple<std::string,std::string,std::string>> final_result = {};
+    while ((rc = sqlite3_step(statement)) == SQLITE_ROW)
+    {
+        result = sqlite3_column_text(statement, 0);
+        std::string string_result1(static_cast<char const *>(result));
+        username = string_result1;
+        result = sqlite3_column_text(statement, 1);
+        std::string string_result2(static_cast<char const *>(result));
+        password = string_result2;
+        result = sqlite3_column_text(statement, 2);
+        std::string string_result3(static_cast<char const *>(result));
+        last_update = string_result3;
+
+        single_tuple = std::make_tuple(username, password, last_update);
+        final_result.push_back(single_tuple);
+    }
+    sqlite3_finalize(statement);
+    disconnect();
+    return final_result;
+}
+
+
+void Database::full_truncate(std::string table)
+{
+    std::string truncate_sql = "DELET FROM " + table + ";";
+    connect();
+    sqlite3_exec(sqlite_db, truncate_sql.c_str(), NULL, NULL, NULL);
+    disconnect();
+}
 
 //OPERATORS
 
