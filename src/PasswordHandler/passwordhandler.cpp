@@ -235,7 +235,6 @@ void PasswordHandler::save_locally(Database* database, int key)
     database->full_truncate(table);
     for(password_row rows: this->passwords)
     {
-        std::cout << "SAVE" << std::endl;
         database->insert(table,
                          {"SERVICE", "PASSWORD", "LAST_UPDATE"},
                          {simple_encryption(std::get<0>(rows), key),
