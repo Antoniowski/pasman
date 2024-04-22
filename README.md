@@ -45,14 +45,12 @@ g++ -std=c++20 texthandler.o passwordhandler.o utility.o main.o -o pasman
 When you open pasman for the first time, a short initialization will begin.
 During it you will be asked to choose an username, a password and a key. The key will be used to login (in combo with your password obviously) and, in particular, to encrypt both your info and your passwords.
 
-Another thing that will be asked is a path to a folder that will be used to create a pasman folder that will contain all the encrypted files.
-
 ## Reset and Export
 
-To reset the program and create a new profile you just need to delete the config.txt file that can be found in the pasman/ folder at the path that has been specified during the initialization.
+To reset the program and create a new profile you just need to delete the exfls file that will be create in the same folder where the program is.
 
-N.B. Deleting the config file and run the program again will automatically delete the pass.txt file where the passwords are saved.
+N.B. Deleting the exfls file and run the program again will automatically delete all the content in the sqlite database.
 
-You can also export your file so that you can use them into another machine. You just need to copy your config and pass files into your new
-computer (in the folder that you have spacified during the init) and you are ready to go.
+You can also export your database so that you can use them into another machine. You just need to initialize pasman on the new machine using the same key used on the old one and then 
+copy your localdata.db file into your new computer in the same folder of the program.
 
