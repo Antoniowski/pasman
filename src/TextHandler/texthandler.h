@@ -52,7 +52,7 @@ private:
     const string init_text_06 = "Configuration completed. Welcome, ";
     const string password_mismatch_text = "Passwords doesn't match. Try again.";
     const string wrong_password_text = "Wrong password. Try again";
-    const string too_many_tries_text = "Too many tries. Abort loggin";
+    const string too_many_tries_text = "Too many tries. Abort login";
     const string not_number_text = "Not a number. Retry";
     const string key_text = "Key: ";
     const string exit_text = "Goodbye!";

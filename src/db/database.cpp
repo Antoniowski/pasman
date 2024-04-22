@@ -157,6 +157,7 @@ std::string Database::get_value(std::string column, std::string table, std::stri
         result = sqlite3_column_text(statement, 0);
         std::string string_result(static_cast<char const *>(result));
         x = string_result;
+        std::cout << x << std::endl;
     }
     sqlite3_finalize(statement);
     disconnect();
@@ -224,7 +225,7 @@ std::vector<std::tuple<std::string, std::string,std::string>> Database::get_pass
 
 void Database::full_truncate(std::string table)
 {
-    std::string truncate_sql = "DELET FROM " + table + ";";
+    std::string truncate_sql = "DELETE FROM " + table + ";";
     connect();
     sqlite3_exec(sqlite_db, truncate_sql.c_str(), NULL, NULL, NULL);
     disconnect();
