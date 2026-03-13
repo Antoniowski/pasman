@@ -1,0 +1,11 @@
+#!/bash/bin
+
+$PROGRAM_NAME="pasman"
+$CURRENT_DIR="."
+$INSTALLATION_DIR="/usr/local/bin"
+
+set -e
+
+make
+cp $CURRENT_DIR/$PROGRAM_NAME $INSTALLATION_DIR/$PROGRAM_NAME
+chmod +x $INSTALLATION_DIR/$PROGRAM_NAME

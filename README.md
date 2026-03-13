@@ -1,10 +1,18 @@
-# pasman, an easy local cli password manager
+# Pasman, An Easy Local Cli Password Manager
 
-pasman is an easy way to storage your password locally using your terminal
+<p align="center">
+  <img src="./pasman_img.png" alt="Trax"/>
+</p>
+
+<p align="center">
+  <a href="https://ko-fi.com/P5P11VSMXF"><img src="https://ko-fi.com/img/githubbutton_sm.svg"/></a>
+</p>
+
+Pasman is an easy way to storage your password locally using your terminal
 
 ## How to setup
 
-You can download pasman last version at this [link](https://github.com/Antoniowski/pasman/releases) or alternatively you can compile it yourself from the source code.
+You can download pasman latest version [here](https://github.com/Antoniowski/pasman/releases) or alternatively you can compile it yourself from the source code.
 
 If you choose the latter then firstly clone this repo on your pc using the git clone command:
 
@@ -18,8 +26,8 @@ or the GitHub CLI command:
 gh repo clone Antoniowski/pasman
 ```
 
-Then, open the terminal and navigate to the folder where you cloned the repo and use make to create the executable.
-If you cannot use the make command you can manually compile files by using the following instructions:
+Then, open the terminal and navigate to the folder where you cloned the repo and use <code>make</code> to create the executable or just use the <code>install.sh</code> script. <br/>
+If you cannot use the <code>make</code> command you can manually compile files by using the following instructions:
 ```
 g++ -c ./src/PasswordHandler/passwordhandler.cpp
 g++ -c ./src/TextHandler/texthandler.cpp
